@@ -40,21 +40,21 @@ public class JanelaProvas extends JFrame{
                 new Object[]{"Nome", "Nº Etapas", "Data Inicio", "Data Fim", "Alterar", "Abrir Prova"}
         ));
         //SET CUSTOM RENDERER TO TEAMS COLUMN
-        tableProvas.getColumnModel().getColumn(4).setCellRenderer(new ButtonRenderer());
-        tableProvas.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer());
+        tableProvas.getColumnModel().getColumn(4).setCellRenderer(new ButtonJanelaProvasRenderer());
+        tableProvas.getColumnModel().getColumn(5).setCellRenderer(new ButtonJanelaProvasRenderer());
 
         //SET CUSTOM EDITOR TO TEAMS COLUMN
-        tableProvas.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor(new JTextField()));
-        tableProvas.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JTextField()));
+        tableProvas.getColumnModel().getColumn(4).setCellEditor(new ButtonJanelaProvasEditor(new JTextField()));
+        tableProvas.getColumnModel().getColumn(5).setCellEditor(new ButtonJanelaProvasEditor(new JTextField()));
 
     }
 }
 
-class ButtonRenderer extends JButton implements TableCellRenderer
+class ButtonJanelaProvasRenderer extends JButton implements TableCellRenderer
 {
 
     //CONSTRUCTOR
-    public ButtonRenderer() {
+    public ButtonJanelaProvasRenderer() {
         //SET BUTTON PROPERTIES
         setOpaque(true);
     }
@@ -70,13 +70,13 @@ class ButtonRenderer extends JButton implements TableCellRenderer
 
 }
 
-class ButtonEditor extends DefaultCellEditor
+class ButtonJanelaProvasEditor extends DefaultCellEditor
 {
     protected JButton btn;
     private String lbl;
     private Boolean clicked;
 
-    public ButtonEditor(JTextField txt) {
+    public ButtonJanelaProvasEditor(JTextField txt) {
         super(txt);
 
         btn=new JButton();

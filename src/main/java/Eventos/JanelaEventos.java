@@ -1,6 +1,8 @@
 package Eventos;
 
 
+import Provas.JanelaProvas;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -10,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.DefaultCellEditor;
 import java.awt.Component;
+import java.util.LinkedList;
 
 public class JanelaEventos extends JFrame{
     private JPanel painelPrincipal;
@@ -54,10 +57,15 @@ public class JanelaEventos extends JFrame{
         });
     }
     private void createTable(){
-
-        Object[][] data = {{"Evento 1", "Portugal","Lisboa", "11/04/2030", "11/06/2030", "Alterar", "Abrir Provas", "Duplicar"},
-                {"Evento 2", "Franca", "Paris", "05/11/2050", "14/01/2051", "Alterar", "Abrir Provas", "Duplicar" }
-        };
+        LinkedList<Evento> eventos = GestorEventos.getInstance().getEventos();
+        Object[][] data = new Object[0][8];
+        int i = 0;
+        for (Evento evento : eventos) {
+            Object[][] dataAux = new Object[data.length+1][8];
+            System.arraycopy(data, 0, dataAux, 0, data.length);
+            dataAux[i++] = new Object[]{evento.getNome(),evento.getPais(),evento.getLocal(),evento.getDataInicio(), evento.getDataFim(), "Abrir Provas", "Duplicar"};
+            data = dataAux.clone();
+        }
 
         tableEventos.setModel(new DefaultTableModel(
                 data,
@@ -136,7 +144,7 @@ class ButtonEditor extends DefaultCellEditor
         local=table.getModel().getValueAt(row,2).toString();
         dtaInicio=table.getModel().getValueAt(row,3).toString();
         dtaFim=table.getModel().getValueAt(row,4).toString();
-        System.out.println(nome);
+        //System.out.println(nome);
 
 
         //SET TEXT TO BUTTON,SET CLICKED TO TRUE,THEN RETURN THE BTN OBJECT
@@ -156,8 +164,8 @@ class ButtonEditor extends DefaultCellEditor
             //JOptionPane.showMessageDialog(btn, lbl+" Clicked");
             switch(lbl){
                 case "Abrir Provas":
-                    /*var janelaProvas = new JanelaProvas();
-                    janelaProvas.setVisible(true);*/
+                    var janelaProvas = new JanelaProvas();
+                    janelaProvas.setVisible(true);
                     break;
                 case "Alterar":
                     var janelaEditarEvento = new JanelaEditarEvento(nome,pais,local, dtaInicio, dtaFim);
