@@ -1,5 +1,7 @@
 package Eventos;
 
+import Provas.JanelaProvas;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -18,9 +20,7 @@ public class JanelaEventos extends JFrame{
     private JButton paisesMaisMedalhadosButton;
     private JButton criarEventoButton;
     private JScrollPane sp;
-    private JPanel panelBottom;
-    private JButton buttonConfirmar;
-    private JButton buttonCancelar;
+    private JTable table1;
 
     public JanelaEventos(){
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -56,30 +56,22 @@ public class JanelaEventos extends JFrame{
     }
     private void createTable(){
 
-        JButton btn1 = new JButton("Alterar");
-        JButton btn2 = new JButton("Abrir Provas");
-
-
-
-        Object[][] data = {{"Eventos.Evento 1", "Portugal","Lisboa", "11/04/2030", "11/06/2030", "Alterar", "Abrir Provas", "Duplicar"},
-                {"Eventos.Evento 2", "Franca", "Paris", "05/11/2050", "14/01/2051", "Alterar", "Abrir Provas", "Duplicar" }
+        Object[][] data = {{"Evento 1", "Portugal","Lisboa", "11/04/2030", "11/06/2030", "Alterar", "Abrir Provas", "Duplicar"},
+                {"Evento 2", "Franca", "Paris", "05/11/2050", "14/01/2051", "Alterar", "Abrir Provas", "Duplicar" }
         };
 
         tableEventos.setModel(new DefaultTableModel(
                 data,
-                new Object[]{"Nome", "País", "Local", "Utils.Data Inicio", "Utils.Data Fim", "Alterar", "Provas", "Duplicar"}
+                new Object[]{"Nome", "País", "Local", "Data Inicio", "Data Fim", "Alterar", "Provas", "Duplicar"}
         ));
-        //SET CUSTOM RENDERER TO TEAMS COLUMN
+
         tableEventos.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer());
         tableEventos.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer());
         tableEventos.getColumnModel().getColumn(7).setCellRenderer(new ButtonRenderer());
 
-        //SET CUSTOM EDITOR TO TEAMS COLUMN
         tableEventos.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JTextField()));
         tableEventos.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JTextField()));
         tableEventos.getColumnModel().getColumn(7).setCellEditor(new ButtonEditor(new JTextField()));
-
-
     }
 
 }
@@ -110,6 +102,14 @@ class ButtonEditor extends DefaultCellEditor
     private String lbl;
     private Boolean clicked;
 
+
+    private String nome;
+    private String pais;
+    private String local;
+    private String dtaInicio;
+    private String dtaFim;
+
+
     public ButtonEditor(JTextField txt) {
         super(txt);
 
@@ -131,6 +131,14 @@ class ButtonEditor extends DefaultCellEditor
     @Override
     public Component getTableCellEditorComponent(JTable table, Object obj,
                                                  boolean selected, int row, int col) {
+        //OBTER DADOS DA CELL SELECIONADA
+        nome=table.getModel().getValueAt(row,0).toString();
+        pais=table.getModel().getValueAt(row,1).toString();
+        local=table.getModel().getValueAt(row,2).toString();
+        dtaInicio=table.getModel().getValueAt(row,3).toString();
+        dtaFim=table.getModel().getValueAt(row,4).toString();
+        System.out.println(nome);
+
 
         //SET TEXT TO BUTTON,SET CLICKED TO TRUE,THEN RETURN THE BTN OBJECT
         lbl=(obj==null) ? "":obj.toString();
@@ -147,6 +155,16 @@ class ButtonEditor extends DefaultCellEditor
         {
             //SHOW US SOME MESSAGE
             JOptionPane.showMessageDialog(btn, lbl+" Clicked");
+            switch(lbl){
+                case "Abrir Provas":
+                    var janelaProvas = new JanelaProvas();
+                    janelaProvas.setVisible(true);
+                    break;
+                case "Alterar":
+                    var janelaEditarEvento = new JanelaEditarEvento(nome,pais,local, dtaInicio, dtaFim);
+                    janelaEditarEvento.setVisible(true);
+                    break;
+            }
         }
         //SET IT TO FALSE NOW THAT ITS CLICKED
         clicked=false;

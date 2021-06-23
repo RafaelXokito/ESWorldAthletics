@@ -25,8 +25,8 @@ public class JanelaCriarEvento extends JFrame{
     private boolean textFieldNomeClicked=false;
     private boolean textFieldPaisClicked=false;
     private boolean textFieldLocalClicked=false;
-    private boolean textFieldDtaInicioClicked=false;
-    private boolean textFieldDtaFimClicked=false;
+    private boolean formatedTextFieldDtaInicioClicked=false;
+    private boolean formatedTextFieldDtaFimClicked=false;
 
     public JanelaCriarEvento(){
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -37,9 +37,15 @@ public class JanelaCriarEvento extends JFrame{
 
         textFieldNome.setToolTipText("Nome");
         textFieldPais.setToolTipText("País");
+<<<<<<< Updated upstream
         textFieldGenero.setToolTipText("Local");
         textFieldDtaInicio.setToolTipText("Utils.Data de inicio");
         textFieldDtaFim.setToolTipText("Utils.Data de fim");
+=======
+        textFieldLocal.setToolTipText("Local");
+        formattedTextFieldDtaInicio.setToolTipText("Data de inicio");
+        formattedTextFieldDtaFim.setToolTipText("Data de fim");
+>>>>>>> Stashed changes
 
 
 
@@ -60,13 +66,13 @@ public class JanelaCriarEvento extends JFrame{
                 }
             }
         });
-        textFieldDtaInicio.addMouseListener(new MouseAdapter() {
+        formattedTextFieldDtaInicio.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if (textFieldDtaInicioClicked == false) {
-                    textFieldDtaInicio.setText("");
-                    textFieldDtaInicioClicked = true;
+                if (formatedTextFieldDtaInicioClicked == false) {
+                    formattedTextFieldDtaInicio.setText("");
+                    formatedTextFieldDtaInicioClicked = true;
                 }
             }
         });
@@ -83,13 +89,13 @@ public class JanelaCriarEvento extends JFrame{
 
 
         });
-        textFieldDtaFim.addMouseListener(new MouseAdapter() {
+        formattedTextFieldDtaFim.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if (textFieldDtaFimClicked == false) {
-                    textFieldDtaFim.setText("");
-                    textFieldDtaFimClicked = true;
+                if (formatedTextFieldDtaFimClicked == false) {
+                    formattedTextFieldDtaFim.setText("");
+                    formatedTextFieldDtaFimClicked = true;
                 }
             }
         });
@@ -128,5 +134,10 @@ public class JanelaCriarEvento extends JFrame{
         textFieldGenero.setText("");
         textFieldDtaInicio.setText("");
         textFieldDtaFim.setText("");
+=======
+        textFieldLocal.setText("");
+        formattedTextFieldDtaInicio.setText("");
+        formattedTextFieldDtaFim.setText("");
+>>>>>>> Stashed changes
     }
 }

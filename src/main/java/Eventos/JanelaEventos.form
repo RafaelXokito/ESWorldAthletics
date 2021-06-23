@@ -90,7 +90,7 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <text value="Criar Eventos.Evento"/>
+                  <text value="Criar Evento"/>
                 </properties>
               </component>
             </children>
