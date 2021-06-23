@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class JanelaCriarEvento extends JFrame{
+public class NovoAtleta extends JFrame{
     private JPanel painelPrincipal;
     private JButton buttonImportar;
     private JButton buttonApagar;
@@ -27,7 +27,7 @@ public class JanelaCriarEvento extends JFrame{
     private boolean textFieldDtaInicioClicked=false;
     private boolean textFieldDtaFimClicked=false;
 
-    public JanelaCriarEvento(){
+    public NovoAtleta(){
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setContentPane(painelPrincipal);
         setVisible(true);
