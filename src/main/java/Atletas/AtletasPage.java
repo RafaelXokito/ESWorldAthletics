@@ -52,8 +52,8 @@ public class AtletasPage extends JFrame{
         criarAtletaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                var janelaCriarEventos = new JanelaCriarEvento();
-                janelaCriarEventos.setVisible(true);
+                var novoAtleta = new NovoAtleta("Criar Atleta", null);
+                novoAtleta.setVisible(true);
             }
         });
     }
@@ -151,10 +151,16 @@ class ButtonEditor extends DefaultCellEditor
         {
             //SHOW US SOME MESSAGE
             //JOptionPane.showMessageDialog(btn, row+" Clicked");
-
-            ProvasAtletaPage provasAtletaPage = new ProvasAtletaPage(GestorAtletas.getInstance().getAtletas().get(row));
-            provasAtletaPage.pack();
-            provasAtletaPage.setVisible(true);
+            if (lbl.equals("Provas")) {
+                ProvasAtletaPage provasAtletaPage = new ProvasAtletaPage(GestorAtletas.getInstance().getAtletas().get(row));
+                provasAtletaPage.pack();
+                provasAtletaPage.setVisible(true);
+            }
+            if (lbl.equals("Alterar")) {
+                NovoAtleta novoAtleta = new NovoAtleta("Alterar Atleta",GestorAtletas.getInstance().getAtletas().get(row));
+                novoAtleta.pack();
+                novoAtleta.setVisible(true);
+            }
         }
         //SET IT TO FALSE NOW THAT ITS CLICKED
         clicked=false;

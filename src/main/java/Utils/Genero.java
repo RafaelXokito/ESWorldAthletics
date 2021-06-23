@@ -19,4 +19,13 @@ public enum Genero {
     public String toString() {
         return this.name;
     }
+
+    public static Genero getGenero(String s) {
+        for (Genero genero : Genero.values()) {
+            if (s.equals(genero.toString()) || Genero.valueOf(s) == genero){
+                return genero;
+            }
+        }
+        return null;
+    }
 }

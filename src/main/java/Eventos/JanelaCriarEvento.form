@@ -81,7 +81,7 @@
               <text value="País"/>
             </properties>
           </component>
-          <component id="5d487" class="javax.swing.JTextField" binding="textFieldLocal">
+          <component id="5d487" class="javax.swing.JTextField" binding="textFieldGenero">
             <constraints>
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -101,7 +101,7 @@
               <text value="Confirmar"/>
             </properties>
           </component>
-          <component id="6650b" class="javax.swing.JFormattedTextField" binding="formattedTextFieldDtaInicio">
+          <component id="6650b" class="javax.swing.JFormattedTextField" binding="formattedTextFieldDtaNascimento">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -109,7 +109,7 @@
             </constraints>
             <properties/>
           </component>
-          <component id="ed1fb" class="javax.swing.JFormattedTextField" binding="formattedTextFieldDtaFim">
+          <component id="ed1fb" class="javax.swing.JFormattedTextField" binding="formattedTextFieldContacto">
             <constraints>
               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>

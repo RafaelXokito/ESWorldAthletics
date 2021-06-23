@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 
 public class JanelaCriarEvento extends JFrame{
     private JPanel painelPrincipal;
@@ -16,11 +15,12 @@ public class JanelaCriarEvento extends JFrame{
     private JTextField textFieldDtaInicio;
     private JTextField textFieldPais;
     private JTextField textFieldDtaFim;
-    private JTextField textFieldLocal;
+    private JTextField textFieldGenero;
     private JButton confirmarButton;
     private JPanel painelContent;
-    private JFormattedTextField formattedTextFieldDtaInicio;
-    private JFormattedTextField formattedTextFieldDtaFim;
+    private JFormattedTextField formattedTextFieldDtaNascimento;
+    private JFormattedTextField formattedTextFieldContacto;
+    private JFormattedTextField formattedTextFieldTipoProva;
 
     private boolean textFieldNomeClicked=false;
     private boolean textFieldPaisClicked=false;
@@ -37,7 +37,7 @@ public class JanelaCriarEvento extends JFrame{
 
         textFieldNome.setToolTipText("Nome");
         textFieldPais.setToolTipText("País");
-        textFieldLocal.setToolTipText("Local");
+        textFieldGenero.setToolTipText("Local");
         textFieldDtaInicio.setToolTipText("Utils.Data de inicio");
         textFieldDtaFim.setToolTipText("Utils.Data de fim");
 
@@ -93,12 +93,12 @@ public class JanelaCriarEvento extends JFrame{
                 }
             }
         });
-        textFieldLocal.addMouseListener(new MouseAdapter() {
+        textFieldGenero.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 if (textFieldLocalClicked == false) {
-                    textFieldLocal.setText("");
+                    textFieldGenero.setText("");
                     textFieldLocalClicked = true;
                 }
             }
@@ -125,7 +125,7 @@ public class JanelaCriarEvento extends JFrame{
     private void apagar() {
         textFieldNome.setText("");
         textFieldPais.setText("");
-        textFieldLocal.setText("");
+        textFieldGenero.setText("");
         textFieldDtaInicio.setText("");
         textFieldDtaFim.setText("");
     }

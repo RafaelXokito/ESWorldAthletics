@@ -18,4 +18,13 @@ public enum TipoProva {
     public String toString() {
         return this.name;
     }
+
+    public static TipoProva getTipoProva(String s) {
+        for (TipoProva tipoProva : TipoProva.values()) {
+            if (s.equals(tipoProva.toString()) || TipoProva.valueOf(s) == tipoProva){
+                return tipoProva;
+            }
+        }
+        return null;
+    }
 }
