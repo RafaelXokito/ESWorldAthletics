@@ -30,11 +30,13 @@ public class Homepage extends JFrame {
         super(title);
 
         Evento evento1 = new Evento("Jogos Olimpicos", "China", "Tokio",  new Data(2022, 6, 23),new Data(2022,7,23));
-        Prova prova1evento1 = new Prova(TipoProva.Salto_em_Comprimento, "Menor Valor", "24-06-2022", "22-07-2022");
+        Prova prova1evento1 = new Prova(TipoProva.Salto_em_Comprimento, "Menor Valor", new Data(2022,6,24), new Data(2022,7, 22));
         Atleta atletaRafael = new Atleta("Rafael Mendes Pereira", "Portugal", Genero.M, new Data(2000, 9, 3), "910000000", TipoProva.Salto_em_Comprimento);
         Atleta atletaBruna = new Atleta("Bruna Alexandra Marques Leitão", "Portugal", Genero.F, new Data(2001,7,8), "920000000", TipoProva.Salto_em_Altura);
+        Atleta atletaLucas = new Atleta("Lucas", "Portugal", Genero.M, new Data(1999,1,28), "930000000", TipoProva.Salto_em_Altura);
         GestorAtletas.getInstance().addAtleta(atletaRafael);
         GestorAtletas.getInstance().addAtleta(atletaBruna);
+        GestorAtletas.getInstance().addAtleta(atletaLucas);
         prova1evento1.adicionarAtleta(atletaRafael);
         prova1evento1.adicionarAtleta(atletaBruna);
         Etapa evento1prova1 = new Etapa("24-06-2022", "09:00", "Quartos-Final", "24", Genero.Nao_Defenido, "10");

@@ -2,6 +2,8 @@ package Provas;
 
 import Atletas.Atleta;
 import Etapas.Etapa;
+import Grupos.Grupo;
+import Utils.Data;
 import Utils.TipoProva;
 
 import java.util.LinkedList;
@@ -9,18 +11,32 @@ import java.util.LinkedList;
 public class Prova {
     private TipoProva tipoProva;
     private String criterioProva;
-    private String dataInicio;
-    private String dataFimPrevisto;
+    private Data dataInicio;
+    private Data dataFimPrevisto;
     private LinkedList<Atleta> atletas;
     private LinkedList<Etapa> etapas;
 
-    public Prova(TipoProva tipoProva, String criterioProva, String dataInicio, String dataFimPrevisto) {
+    public Prova(TipoProva tipoProva, String criterioProva, Data dataInicio, Data dataFimPrevisto) {
         this.tipoProva = tipoProva;
         this.criterioProva = criterioProva;
         this.dataInicio = dataInicio;
         this.dataFimPrevisto = dataFimPrevisto;
         this.atletas = new LinkedList<>();
         this.etapas = new LinkedList<>();
+    }
+
+    public boolean atletaCanBeRemoved(Atleta atleta){
+        for (Etapa etapa : etapas) {
+            for (Grupo grupo : etapa.getGrupos()) {
+                if (grupo.getAtletas().contains(atleta))
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    public Atleta removerAtleta(Atleta atleta){
+        return atletas.remove(atleta) ? atleta : null;
     }
 
     public void adicionarAtleta(Atleta atleta){
@@ -55,19 +71,19 @@ public class Prova {
         this.criterioProva = criterioProva;
     }
 
-    public String getDataInicio() {
+    public Data getDataInicio() {
         return dataInicio;
     }
 
-    public void setDataInicio(String dataInicio) {
+    public void setDataInicio(Data dataInicio) {
         this.dataInicio = dataInicio;
     }
 
-    public String getDataFimPrevisto() {
+    public Data getDataFimPrevisto() {
         return dataFimPrevisto;
     }
 
-    public void setDataFimPrevisto(String dataFimPrevisto) {
+    public void setDataFimPrevisto(Data dataFimPrevisto) {
         this.dataFimPrevisto = dataFimPrevisto;
     }
 }

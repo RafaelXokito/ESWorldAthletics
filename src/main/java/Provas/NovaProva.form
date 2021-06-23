@@ -15,12 +15,12 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="ccb4c" class="javax.swing.JLabel">
+          <component id="ccb4c" class="javax.swing.JLabel" binding="lblTitle">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Criar Evento"/>
+              <text value="Criar Prova"/>
             </properties>
           </component>
           <component id="1e56a" class="javax.swing.JButton" binding="buttonImportar">
@@ -47,7 +47,7 @@
           </component>
         </children>
       </grid>
-      <grid id="23603" binding="painelContent" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="23603" binding="painelContent" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints border-constraint="Center"/>
         <properties>
@@ -56,44 +56,29 @@
         </properties>
         <border type="none"/>
         <children>
-          <component id="b89fa" class="javax.swing.JTextField" binding="textFieldNome">
+          <component id="b89fa" class="javax.swing.JTextField" binding="textFieldTipoProva">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
             </constraints>
             <properties>
-              <text value="Nome do Evento"/>
+              <text value="Tipo de Prova"/>
             </properties>
           </component>
-          <vspacer id="88308">
-            <constraints>
-              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-            </constraints>
-          </vspacer>
-          <component id="1c65a" class="javax.swing.JTextField" binding="textFieldPais">
+          <component id="1c65a" class="javax.swing.JTextField" binding="textFieldCriterio">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
             </constraints>
             <properties>
-              <text value="País"/>
-            </properties>
-          </component>
-          <component id="5d487" class="javax.swing.JTextField" binding="textFieldLocal">
-            <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="-1"/>
-              </grid>
-            </constraints>
-            <properties>
-              <text value="Local"/>
+              <text value="Critério da Prova"/>
             </properties>
           </component>
           <component id="e98c7" class="javax.swing.JButton" binding="confirmarButton" default-binding="true">
             <constraints>
-              <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <background color="-1"/>
@@ -119,6 +104,16 @@
             </constraints>
             <properties>
               <text value="Data de Fim prevista"/>
+            </properties>
+          </component>
+          <component id="7b2f1" class="javax.swing.JButton" binding="btnSelecionarAtletas">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-1"/>
+              <foreground color="-5526273"/>
+              <text value="Selecionar Atletas"/>
             </properties>
           </component>
         </children>
