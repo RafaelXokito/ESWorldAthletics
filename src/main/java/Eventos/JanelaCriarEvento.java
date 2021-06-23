@@ -15,11 +15,11 @@ public class JanelaCriarEvento extends JFrame{
     private JTextField textFieldDtaInicio;
     private JTextField textFieldPais;
     private JTextField textFieldDtaFim;
-    private JTextField textFieldGenero;
+    private JTextField textFieldLocal;
     private JButton confirmarButton;
     private JPanel painelContent;
-    private JFormattedTextField formattedTextFieldDtaNascimento;
-    private JFormattedTextField formattedTextFieldContacto;
+    private JFormattedTextField formattedTextFieldDtaInicio;
+    private JFormattedTextField formattedTextFieldDtaFim;
     private JFormattedTextField formattedTextFieldTipoProva;
 
     private boolean textFieldNomeClicked=false;
@@ -37,15 +37,9 @@ public class JanelaCriarEvento extends JFrame{
 
         textFieldNome.setToolTipText("Nome");
         textFieldPais.setToolTipText("País");
-<<<<<<< Updated upstream
-        textFieldGenero.setToolTipText("Local");
-        textFieldDtaInicio.setToolTipText("Utils.Data de inicio");
-        textFieldDtaFim.setToolTipText("Utils.Data de fim");
-=======
         textFieldLocal.setToolTipText("Local");
         formattedTextFieldDtaInicio.setToolTipText("Data de inicio");
         formattedTextFieldDtaFim.setToolTipText("Data de fim");
->>>>>>> Stashed changes
 
 
 
@@ -99,12 +93,12 @@ public class JanelaCriarEvento extends JFrame{
                 }
             }
         });
-        textFieldGenero.addMouseListener(new MouseAdapter() {
+        textFieldLocal.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 if (textFieldLocalClicked == false) {
-                    textFieldGenero.setText("");
+                    textFieldLocal.setText("");
                     textFieldLocalClicked = true;
                 }
             }
@@ -131,13 +125,8 @@ public class JanelaCriarEvento extends JFrame{
     private void apagar() {
         textFieldNome.setText("");
         textFieldPais.setText("");
-        textFieldGenero.setText("");
-        textFieldDtaInicio.setText("");
-        textFieldDtaFim.setText("");
-=======
         textFieldLocal.setText("");
         formattedTextFieldDtaInicio.setText("");
         formattedTextFieldDtaFim.setText("");
->>>>>>> Stashed changes
     }
 }

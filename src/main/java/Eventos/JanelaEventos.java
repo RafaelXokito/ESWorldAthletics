@@ -1,6 +1,5 @@
 package Eventos;
 
-import Provas.JanelaProvas;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -157,8 +156,8 @@ class ButtonEditor extends DefaultCellEditor
             JOptionPane.showMessageDialog(btn, lbl+" Clicked");
             switch(lbl){
                 case "Abrir Provas":
-                    var janelaProvas = new JanelaProvas();
-                    janelaProvas.setVisible(true);
+                    /*var janelaProvas = new JanelaProvas();
+                    janelaProvas.setVisible(true);*/
                     break;
                 case "Alterar":
                     var janelaEditarEvento = new JanelaEditarEvento(nome,pais,local, dtaInicio, dtaFim);

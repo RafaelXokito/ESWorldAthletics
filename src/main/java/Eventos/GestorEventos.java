@@ -1,3 +1,7 @@
+package Eventos;
+
+import Eventos.Evento;
+
 import java.io.Serializable;
 import java.util.LinkedList;
 

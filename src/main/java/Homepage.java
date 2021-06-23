@@ -3,7 +3,6 @@ import Atletas.AtletasPage;
 import Atletas.GestorAtletas;
 import Etapas.Etapa;
 import Eventos.Evento;
-import Eventos.GestorEventos;
 import Eventos.JanelaEventos;
 import Grupos.Grupo;
 import Provas.Prova;
@@ -11,7 +10,7 @@ import Resultados.Resultado;
 import Utils.Data;
 import Utils.Genero;
 import Utils.TipoProva;
-
+import Eventos.GestorEventos;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
