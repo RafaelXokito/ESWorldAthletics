@@ -63,7 +63,7 @@ public class JanelaEventos extends JFrame{
         for (Evento evento : eventos) {
             Object[][] dataAux = new Object[data.length+1][8];
             System.arraycopy(data, 0, dataAux, 0, data.length);
-            dataAux[i++] = new Object[]{evento.getNome(),evento.getPais(),evento.getLocal(),evento.getDataInicio(), evento.getDataFim(), "Abrir Provas", "Duplicar"};
+            dataAux[i++] = new Object[]{evento.getNome(),evento.getPais(),evento.getLocal(),evento.getDataInicio(), evento.getDataFim(),"Alterar", "Abrir Provas", "Duplicar"};
             data = dataAux.clone();
         }
 

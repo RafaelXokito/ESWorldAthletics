@@ -58,8 +58,8 @@ public class JanelaProvas extends JFrame{
         tableProvas.getColumnModel().getColumn(5).setCellRenderer(new ButtonJanelaProvasRenderer());
 
         //SET CUSTOM EDITOR TO TEAMS COLUMN
-        tableProvas.getColumnModel().getColumn(4).setCellEditor(new ButtonJanelaProvasEditor(new JTextField()));
-        tableProvas.getColumnModel().getColumn(5).setCellEditor(new ButtonJanelaProvasEditor(new JTextField()));
+        tableProvas.getColumnModel().getColumn(4).setCellEditor(new ButtonJanelaProvasEditor(new JTextField(), this.evento));
+        tableProvas.getColumnModel().getColumn(5).setCellEditor(new ButtonJanelaProvasEditor(new JTextField(), this.evento));
 
     }
 }
@@ -89,10 +89,13 @@ class ButtonJanelaProvasEditor extends DefaultCellEditor
     protected JButton btn;
     private String lbl;
     private Boolean clicked;
+    private int row;
+    private Evento evento;
 
-    public ButtonJanelaProvasEditor(JTextField txt) {
+    public ButtonJanelaProvasEditor(JTextField txt, Evento evento) {
         super(txt);
 
+        this.evento = evento;
         btn=new JButton();
         btn.setOpaque(true);
 
@@ -116,6 +119,7 @@ class ButtonJanelaProvasEditor extends DefaultCellEditor
         lbl=(obj==null) ? "":obj.toString();
         btn.setText(lbl);
         clicked=true;
+        this.row = row;
         return btn;
     }
 
@@ -126,13 +130,14 @@ class ButtonJanelaProvasEditor extends DefaultCellEditor
         if(clicked)
         {
             //SHOW US SOME MESSAGE
-            JOptionPane.showMessageDialog(btn, lbl+" Clicked");
+            //JOptionPane.showMessageDialog(btn, lbl+" Clicked");
             switch(lbl){
                 case "Abrir Provas":
 
                     break;
                 case "Alterar":
-
+                    var novaProva = new NovaProva("Alterar Prova", this.evento.getProvas().get(row));
+                    novaProva.setVisible(true);
                     break;
             }
         }
