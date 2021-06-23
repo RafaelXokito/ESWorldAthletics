@@ -153,7 +153,7 @@ class ButtonEditor extends DefaultCellEditor
         if(clicked)
         {
             //SHOW US SOME MESSAGE
-            JOptionPane.showMessageDialog(btn, lbl+" Clicked");
+            //JOptionPane.showMessageDialog(btn, lbl+" Clicked");
             switch(lbl){
                 case "Abrir Provas":
                     /*var janelaProvas = new JanelaProvas();
