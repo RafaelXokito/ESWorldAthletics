@@ -108,6 +108,7 @@ class ButtonEditor extends DefaultCellEditor
     protected JButton btn;
     private String lbl;
     private Boolean clicked;
+    private int row;
 
 
     private String nome;
@@ -144,6 +145,7 @@ class ButtonEditor extends DefaultCellEditor
         local=table.getModel().getValueAt(row,2).toString();
         dtaInicio=table.getModel().getValueAt(row,3).toString();
         dtaFim=table.getModel().getValueAt(row,4).toString();
+
         //System.out.println(nome);
 
 
@@ -151,6 +153,7 @@ class ButtonEditor extends DefaultCellEditor
         lbl=(obj==null) ? "":obj.toString();
         btn.setText(lbl);
         clicked=true;
+        this.row = row;
         return btn;
     }
 
@@ -164,7 +167,7 @@ class ButtonEditor extends DefaultCellEditor
             //JOptionPane.showMessageDialog(btn, lbl+" Clicked");
             switch(lbl){
                 case "Abrir Provas":
-                    var janelaProvas = new JanelaProvas();
+                    var janelaProvas = new JanelaProvas(GestorEventos.getInstance().getEventos().get(row));
                     janelaProvas.setVisible(true);
                     break;
                 case "Alterar":
