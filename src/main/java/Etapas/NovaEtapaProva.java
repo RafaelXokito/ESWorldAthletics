@@ -14,24 +14,28 @@ public class NovaEtapaProva extends JFrame{
     private JPanel painelPrincipal;
     private JButton buttonImportar;
     private JButton buttonApagar;
-    private JTextField textFieldTipoProva;
+    private JTextField textFieldHora;
     private JTextField textFieldDtaInicio;
-    private JTextField textFieldCriterio;
-    private JTextField textFieldDtaFim;
+    private JTextField textFieldRonda;
     private JButton confirmarButton;
     private JPanel painelContent;
-    private JFormattedTextField formattedTextFieldDtaInicio;
-    private JFormattedTextField formattedTextFieldDtaFim;
+    private JFormattedTextField textFieldMinimos;
     private JLabel lblTitle;
     private JButton btnSelecionarAtletas;
+    private JFormattedTextField textFieldDiaCompeticao;
+    private JFormattedTextField textFieldGenero;
 
-    private boolean textFieldTipoProvaClicked=false;
-    private boolean textFieldCriterioClicked=false;
+    private boolean textFieldHoraClicked =false;
+    private boolean textFieldRondaClicked =false;
     private boolean formatedTextFieldDtaInicioClicked=false;
-    private boolean formatedTextFieldDtaFimClicked=false;
+    private boolean formatedTextFieldMinimosClicked =false;
+    private boolean textFieldDiaCompeticaoClicked = false;
+    private boolean textFieldGeneroClicked = false;
+
 
     private Prova prova;
     private Etapa etapa;
+
     public NovaEtapaProva(String metodo, Etapa etapa){
         super("NovaEtapaProva "+metodo);
         this.etapa = etapa;
@@ -48,16 +52,21 @@ public class NovaEtapaProva extends JFrame{
         else {
             buttonApagar.setText("Apagar");
 
-            textFieldTipoProva.setText(prova.getTipoProva().toString());
-            textFieldCriterio.setText(prova.getCriterioProva());
-            formattedTextFieldDtaInicio.setText(prova.getDataInicio().toString());
-            formattedTextFieldDtaFim.setText(prova.getDataFimPrevisto().toString());
+            textFieldDtaInicio.setText(etapa.getDataInicio().toString());
+            textFieldHora.setText(etapa.getHora());
+            textFieldRonda.setText(etapa.getRonda());
+            textFieldGenero.setText(etapa.getGenero().toString());
+            textFieldDiaCompeticao.setText(etapa.getDiaCompeticao());
+            textFieldMinimos.setText(etapa.getMinimos());
         }
 
-        textFieldTipoProva.setToolTipText("Tipo de Prova");
-        textFieldCriterio.setToolTipText("Criterio");
-        formattedTextFieldDtaInicio.setToolTipText("Data de inicio");
-        formattedTextFieldDtaFim.setToolTipText("Data de fim");
+
+        textFieldDtaInicio.setToolTipText("Data de inicio");
+        textFieldHora.setToolTipText("Hora");
+        textFieldRonda.setToolTipText("Ronda");
+        textFieldGenero.setToolTipText("Género");
+        textFieldDiaCompeticao.setToolTipText("Dia da Competição");
+        textFieldMinimos.setToolTipText("Mínimos");
 
         buttonApagar.addActionListener(new ActionListener() {
             @Override
@@ -73,46 +82,66 @@ public class NovaEtapaProva extends JFrame{
             }
         });
 
-        textFieldTipoProva.addMouseListener(new MouseAdapter() {
+        textFieldHora.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if (textFieldTipoProvaClicked == false) {
-                    textFieldTipoProva.setText("");
-                    textFieldTipoProvaClicked = true;
+                if (textFieldHoraClicked == false) {
+                    textFieldHora.setText("");
+                    textFieldHoraClicked = true;
                 }
             }
         });
-        formattedTextFieldDtaInicio.addMouseListener(new MouseAdapter() {
+        textFieldGenero.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (textFieldGeneroClicked == false) {
+                    textFieldGenero.setText("");
+                    textFieldGeneroClicked = true;
+                }
+            }
+        });
+        textFieldDiaCompeticao.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (textFieldDiaCompeticaoClicked == false) {
+                    textFieldDiaCompeticao.setText("");
+                    textFieldDiaCompeticaoClicked = true;
+                }
+            }
+        });
+        textFieldDtaInicio.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 if (formatedTextFieldDtaInicioClicked == false) {
-                    formattedTextFieldDtaInicio.setText("");
+                    textFieldDtaInicio.setText("");
                     formatedTextFieldDtaInicioClicked = true;
                 }
             }
         });
 
-        textFieldCriterio.addMouseListener(new MouseAdapter() {
+        textFieldRonda.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if (textFieldCriterioClicked == false) {
-                    textFieldCriterio.setText("");
-                    textFieldCriterioClicked = true;
+                if (textFieldRondaClicked == false) {
+                    textFieldRonda.setText("");
+                    textFieldRondaClicked = true;
                 }
             }
 
 
         });
-        formattedTextFieldDtaFim.addMouseListener(new MouseAdapter() {
+        textFieldMinimos.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if (formatedTextFieldDtaFimClicked == false) {
-                    formattedTextFieldDtaFim.setText("");
-                    formatedTextFieldDtaFimClicked = true;
+                if (formatedTextFieldMinimosClicked == false) {
+                    textFieldMinimos.setText("");
+                    formatedTextFieldMinimosClicked = true;
                 }
             }
         });
@@ -144,9 +173,8 @@ public class NovaEtapaProva extends JFrame{
     }
 
     private void apagar() {
-        textFieldTipoProva.setText("");
-        textFieldCriterio.setText("");
-        formattedTextFieldDtaInicio.setText("");
-        formattedTextFieldDtaFim.setText("");
+        textFieldHora.setText("");
+        textFieldRonda.setText("");
+        textFieldMinimos.setText("");
     }
 }

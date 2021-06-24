@@ -56,24 +56,24 @@
         </properties>
         <border type="none"/>
         <children>
-          <component id="b89fa" class="javax.swing.JTextField" binding="textFieldTipoProva">
+          <component id="b89fa" class="javax.swing.JTextField" binding="textFieldHora">
             <constraints>
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
             </constraints>
             <properties>
-              <text value="Tipo de Prova"/>
+              <text value="Hora"/>
             </properties>
           </component>
-          <component id="1c65a" class="javax.swing.JTextField" binding="textFieldCriterio">
+          <component id="1c65a" class="javax.swing.JTextField" binding="textFieldRonda">
             <constraints>
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
             </constraints>
             <properties>
-              <text value="Critério da Prova"/>
+              <text value="Ronda"/>
             </properties>
           </component>
           <component id="e98c7" class="javax.swing.JButton" binding="confirmarButton" default-binding="true">
@@ -86,14 +86,14 @@
               <text value="Confirmar"/>
             </properties>
           </component>
-          <component id="ed1fb" class="javax.swing.JFormattedTextField" binding="formattedTextFieldDtaFim">
+          <component id="ed1fb" class="javax.swing.JFormattedTextField" binding="textFieldMinimos">
             <constraints>
               <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
             </constraints>
             <properties>
-              <text value="Data de Fim prevista"/>
+              <text value="Mínimos"/>
             </properties>
           </component>
           <component id="7b2f1" class="javax.swing.JButton" binding="btnSelecionarAtletas">
@@ -106,17 +106,17 @@
               <text value="Selecionar Atletas"/>
             </properties>
           </component>
-          <component id="f19eb" class="javax.swing.JFormattedTextField">
+          <component id="f19eb" class="javax.swing.JFormattedTextField" binding="textFieldGenero">
             <constraints>
               <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
             </constraints>
             <properties>
-              <text value="Data de Inicio"/>
+              <text value="Género"/>
             </properties>
           </component>
-          <component id="b64d0" class="javax.swing.JFormattedTextField">
+          <component id="b64d0" class="javax.swing.JFormattedTextField" binding="textFieldDtaInicio">
             <constraints>
               <grid row="0" column="0" row-span="2" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -126,14 +126,14 @@
               <text value="Data de Inicio"/>
             </properties>
           </component>
-          <component id="50bdc" class="javax.swing.JFormattedTextField">
+          <component id="50bdc" class="javax.swing.JFormattedTextField" binding="textFieldDiaCompeticao">
             <constraints>
               <grid row="0" column="1" row-span="2" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
             </constraints>
             <properties>
-              <text value="Data de Inicio"/>
+              <text value="Dia de Competição"/>
             </properties>
           </component>
         </children>
