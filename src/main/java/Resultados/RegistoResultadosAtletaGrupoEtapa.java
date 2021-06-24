@@ -99,6 +99,9 @@ public class RegistoResultadosAtletaGrupoEtapa extends JFrame{
                         resultado.setValor(Double.parseDouble(textFieldValor.getText()));
                         resultado.setData(new Data(new Date().getYear(), new Date().getMonth(), new Date().getDay()));
                     }
+                    if (grupo.getAtletas().size() == grupo.getResultados().size())
+                        grupo.computeVencedores();
+
                     int i = 0;
                     for (Grupo grupo:etapa.getGrupos()) {
                         if (grupo.getResultados().size() == grupo.getAtletas().size()){
@@ -107,7 +110,6 @@ public class RegistoResultadosAtletaGrupoEtapa extends JFrame{
                     }
                     if (etapa.getGrupos().size() == i){
                         etapa.setConcluido();
-                        grupo.computeVencedores();
                     }
                 }
                 dispose();

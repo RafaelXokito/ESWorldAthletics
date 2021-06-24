@@ -172,8 +172,7 @@ class ButtonEditor extends DefaultCellEditor
             //JOptionPane.showMessageDialog(btn, lbl+" Clicked");
             switch(lbl){
                 case "Abrir Provas":
-                    var janelaProvas = new JanelaProvas(GestorEventos.getInstance().getEventos().get(row));
-                    janelaProvas.setVisible(true);
+                    abrirProvasInRowClicked();
                     break;
                 case "Alterar":
                     var janelaEditarEvento = new JanelaEditarEvento(nome,pais,local, dtaInicio, dtaFim);
@@ -181,9 +180,16 @@ class ButtonEditor extends DefaultCellEditor
                     break;
             }
         }
+
+
         //SET IT TO FALSE NOW THAT ITS CLICKED
         clicked=false;
         return new String(lbl);
+    }
+
+    private void abrirProvasInRowClicked() {
+        var janelaProvas = new JanelaProvas(GestorEventos.getInstance().getEventos().get(row));
+        janelaProvas.setVisible(true);
     }
 
     @Override

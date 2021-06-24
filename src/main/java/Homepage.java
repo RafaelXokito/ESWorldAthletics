@@ -76,8 +76,7 @@ public class Homepage extends JFrame {
         btnEventos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            var janelaEventos = new JanelaEventos();
-            janelaEventos.setVisible(true);
+                btnEventosClickedActionPerformed();
             }
         });
 
@@ -86,6 +85,11 @@ public class Homepage extends JFrame {
                 selecionarAtletasClickedActionPerformed();
             }
         });
+    }
+
+    public void btnEventosClickedActionPerformed(){
+        var janelaEventos = new JanelaEventos();
+        janelaEventos.setVisible(true);
     }
 
     public void btnCalendarioEliminatorioActionPerformed() {

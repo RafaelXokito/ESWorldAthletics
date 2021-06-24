@@ -43,7 +43,8 @@ public class Grupo implements ObjectWithAtletas {
     }
 
     public void adicionarVencedor(Atleta atleta){
-        vencedores.add(atleta);
+        if (etapa.getProva().getAtletas().contains(atleta))
+            vencedores.add(atleta);
     }
 
     public Atleta removerVencedor(Atleta atleta){
