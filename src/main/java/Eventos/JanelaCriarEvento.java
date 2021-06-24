@@ -85,31 +85,40 @@ public class JanelaCriarEvento extends JFrame{
                  Evento evento = new Evento(nome, pais  , local, dtaInicio, dtaFim);
 
                 try {
-                    verifica(nome,pais,local,dtaInicio,dtaFim);
-                    if(isDataValida(dtaInicio,dtaFim) != true){
+                    if(verifica(nome,pais,local,dtaInicio,dtaFim)==false){
+                        dispose();
+                    }
+                    if(!isDataValida(dtaInicio, dtaFim)){
                         JOptionPane.showMessageDialog(null,
                                 "A data de fim nao pode ser inferior á data de inicio.",
                                 "Erro",
                                 JOptionPane.ERROR_MESSAGE);
                     }else{
+                        JOptionPane.showMessageDialog(null,
+                                "Evento Adicionado",
+                                "Sucesso",
+                                JOptionPane.INFORMATION_MESSAGE);
                         eventos.addEvento(evento);
+                        fechar();
                     }
                 } catch (ParseException parseException) {
                     parseException.printStackTrace();
                 }
-                return;
             }
 
-            private void verifica(String nome, String pais, String local, Data dtaInicio, Data dtaFim) {
-                System.out.println("a");
-                System.out.println(nome);
+            private void fechar() {
+                    dispose();
+            }
+
+            private boolean verifica(String nome, String pais, String local, Data dtaInicio, Data dtaFim) {
                 if (nome.equals("") || pais.equals("") || local.equals("") || dtaInicio.toString().equals("") || dtaFim.toString().equals("")){
                     JOptionPane.showMessageDialog(null,
                             "Tem campos por preencher",
                             "Erro",
                             JOptionPane.ERROR_MESSAGE);
-                    return;
+                    return false;
                 }
+                return true;
             }
         });
 
@@ -117,7 +126,7 @@ public class JanelaCriarEvento extends JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if (textFieldNomeClicked == false) {
+                if (!textFieldNomeClicked) {
                     textFieldNome.setText("");
                     textFieldNomeClicked = true;
                 }
@@ -128,7 +137,7 @@ public class JanelaCriarEvento extends JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if (textFieldDtaInicio1Clicked == false) {
+                if (!textFieldDtaInicio1Clicked) {
                     textFieldDtaInicio1.setText("");
                     textFieldDtaInicio1Clicked = true;
                 }
@@ -139,7 +148,7 @@ public class JanelaCriarEvento extends JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if (textFieldDtaInicio1Clicked == false) {
+                if (!textFieldDtaInicio1Clicked) {
                     textFieldDtaInicio1.setText("");
                     textFieldDtaInicio1Clicked = true;
                 }
@@ -150,7 +159,7 @@ public class JanelaCriarEvento extends JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if (textFieldDtaInicio3Clicked == false) {
+                if (!textFieldDtaInicio3Clicked) {
                     textFieldDtaInicio3.setText("");
                     textFieldDtaInicio3Clicked = true;
                 }
@@ -161,7 +170,7 @@ public class JanelaCriarEvento extends JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if (textFieldDtaFim1Clicked == false) {
+                if (!textFieldDtaFim1Clicked) {
                     textFieldDtaFim1.setText("");
                     textFieldDtaFim1Clicked = true;
                 }
@@ -172,7 +181,7 @@ public class JanelaCriarEvento extends JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if (textFieldDtaFim2Clicked == false) {
+                if (!textFieldDtaFim2Clicked) {
                     textFieldDtaFim2.setText("");
                     textFieldDtaFim2Clicked = true;
                 }
@@ -183,7 +192,7 @@ public class JanelaCriarEvento extends JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if (textFieldDtaFim3Clicked == false) {
+                if (!textFieldDtaFim3Clicked) {
                     textFieldDtaFim3.setText("");
                     textFieldDtaFim3Clicked = true;
                 }
@@ -194,7 +203,7 @@ public class JanelaCriarEvento extends JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if (textFieldPaisClicked == false) {
+                if (!textFieldPaisClicked) {
                     textFieldPais.setText("");
                     textFieldPaisClicked = true;
                 }
@@ -207,7 +216,7 @@ public class JanelaCriarEvento extends JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if (textFieldLocalClicked == false) {
+                if (!textFieldLocalClicked) {
                     textFieldLocal.setText("");
                     textFieldLocalClicked = true;
                 }
@@ -218,7 +227,7 @@ public class JanelaCriarEvento extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 JFileChooser chooser = new JFileChooser();
                 FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                        "JPG & GIF Images", "jpg", "gif");
+                        "XML", "xml");
                 chooser.setFileFilter(filter);
                 int returnVal = chooser.showOpenDialog(painelContent);
                 if(returnVal == JFileChooser.APPROVE_OPTION) {
@@ -240,8 +249,8 @@ public class JanelaCriarEvento extends JFrame{
         textFieldDtaInicio2.setText("");
         textFieldDtaInicio3.setText("");
         textFieldDtaFim1.setText("");
-        textFieldDtaFim1.setText("");
-        textFieldDtaFim1.setText("");
+        textFieldDtaFim2.setText("");
+        textFieldDtaFim3.setText("");
 
     }
 

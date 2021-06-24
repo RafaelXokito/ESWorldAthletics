@@ -2,6 +2,7 @@ package Eventos;
 
 
 import Provas.JanelaProvas;
+import Utils.Data;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -121,8 +122,7 @@ class ButtonEditor extends DefaultCellEditor
     private String local;
     private String dtaInicio;
     private String dtaFim;
-
-
+    LinkedList<Evento> eventos = GestorEventos.getInstance().getEventos();
     public ButtonEditor(JTextField txt) {
         super(txt);
 
@@ -151,9 +151,6 @@ class ButtonEditor extends DefaultCellEditor
         dtaInicio=table.getModel().getValueAt(row,3).toString();
         dtaFim=table.getModel().getValueAt(row,4).toString();
 
-        //System.out.println(nome);
-
-
         //SET TEXT TO BUTTON,SET CLICKED TO TRUE,THEN RETURN THE BTN OBJECT
         lbl=(obj==null) ? "":obj.toString();
         btn.setText(lbl);
@@ -175,8 +172,11 @@ class ButtonEditor extends DefaultCellEditor
                     abrirProvasInRowClicked();
                     break;
                 case "Alterar":
-                    var janelaEditarEvento = new JanelaEditarEvento(nome,pais,local, dtaInicio, dtaFim);
+                    var janelaEditarEvento = new JanelaEditarEvento(row,eventos);
                     janelaEditarEvento.setVisible(true);
+                    break;
+                case "Duplicar":
+                    duplicar(row);
                     break;
             }
         }
@@ -185,6 +185,21 @@ class ButtonEditor extends DefaultCellEditor
         //SET IT TO FALSE NOW THAT ITS CLICKED
         clicked=false;
         return new String(lbl);
+    }
+
+    private void duplicar(int row) {
+        LinkedList<Evento> eventos = GestorEventos.getInstance().getEventos();
+        Evento evento = eventos.get(row);
+        String[] dtaInicio = evento.getDataInicio().toString().split("-");
+        String[] dtaFim = evento.getDataFim().toString().split("-");
+        eventos.add(new Evento(nome,pais,local,new Data(Integer.parseInt(dtaInicio[2]),Integer.parseInt(dtaInicio[1]),Integer.parseInt(dtaInicio[0]))
+                ,new Data(Integer.parseInt(dtaFim[2]),Integer.parseInt(dtaFim[1]),Integer.parseInt(dtaFim[0]))));
+        JOptionPane.showMessageDialog(null,
+                "Evento Duplicado!",
+                "Sucesso",
+                JOptionPane.INFORMATION_MESSAGE);
+
+
     }
 
     private void abrirProvasInRowClicked() {
