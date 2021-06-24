@@ -1,11 +1,14 @@
 package Etapas;
 
+import Atletas.Atleta;
 import Grupos.Grupo;
+import Provas.ObjectWithAtletas;
+import Provas.Prova;
 import Utils.Genero;
 
 import java.util.LinkedList;
 
-public class Etapa {
+public class Etapa  implements ObjectWithAtletas {
     private String dataInicio;
     private String hora;
     private String ronda;
@@ -14,8 +17,11 @@ public class Etapa {
     private String minimos;
     private LinkedList<Grupo> grupos;
     private boolean concluido;
+    private LinkedList<Atleta> atletas;
 
-    public Etapa(String dataInicio, String hora, String ronda, String diaCompeticao, Genero genero, String minimos) {
+    private Prova prova;
+
+    public Etapa(String dataInicio, String hora, String ronda, String diaCompeticao, Genero genero, String minimos, Prova prova) {
         this.dataInicio = dataInicio;
         this.hora = hora;
         this.ronda = ronda;
@@ -23,6 +29,12 @@ public class Etapa {
         this.genero = genero;
         this.minimos = minimos;
         grupos = new LinkedList<>();
+        atletas = getAtletas();
+        this.prova = prova;
+    }
+
+    public Prova getProva() {
+        return prova;
     }
 
     public void adicionarGrupo(Grupo grupo){
@@ -88,4 +100,24 @@ public class Etapa {
     public boolean getConcluido(){
         return this.concluido;
     }
+
+    public LinkedList<Atleta> getAtletas() {
+        LinkedList<Atleta> atletaLinkedList = new LinkedList<>();
+        for (Grupo grupo : grupos) {
+            for (Atleta atleta : grupo.getAtletas()) {
+                if (!atletaLinkedList.contains(atleta))
+                    atletaLinkedList.add(atleta);
+            }
+        }
+        return atletaLinkedList;
+    }
+
+    public boolean atletaCanBeRemoved(Atleta atleta){
+        for (Grupo grupo : grupos) {
+            if (grupo.atletaCanBeRemoved(atleta) && grupo.getAtletas().contains(atleta))
+                return false;
+        }
+        return true;
+    }
+
 }

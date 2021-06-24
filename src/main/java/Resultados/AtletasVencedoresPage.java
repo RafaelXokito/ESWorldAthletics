@@ -1,8 +1,9 @@
-package Atletas;
+package Resultados;
 
+import Atletas.Atleta;
+import Atletas.GestorAtletas;
+import Etapas.Etapa;
 import Grupos.Grupo;
-import Provas.ObjectWithAtletas;
-import Provas.Prova;
 import Provas.ProvasAtletaPage;
 
 import javax.swing.*;
@@ -15,7 +16,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 
-public class SelecionarAtletasPage extends JFrame{
+public class AtletasVencedoresPage extends JFrame{
     private JPanel painelPrincipal;
     private JButton buttonVoltar;
     private JTable tableAtletas;
@@ -25,19 +26,15 @@ public class SelecionarAtletasPage extends JFrame{
     private JButton btnCancelar;
     private JPanel panelBottom;
     private JButton btnConfirmar;
-    private ObjectWithAtletas tWithAtletas;
+    private Grupo grupo;
     private LinkedList<Atleta> atletas;
+    private Etapa etapa;
 
-    public SelecionarAtletasPage(ObjectWithAtletas tWithAtletas){
-        super("SelecionarAtletasPage");
-        this.tWithAtletas = tWithAtletas;
-        inicialize();
-    }
-
-    public SelecionarAtletasPage(ObjectWithAtletas tWithAtletas, LinkedList<Atleta> atletas){
-        super("SelecionarAtletasPage");
-        this.tWithAtletas = tWithAtletas;
-        this.atletas = atletas;
+    public AtletasVencedoresPage(Grupo grupo,  Etapa etapa){
+        super("AtletasVencedoresPage - Selecionar Atletas Vencedores");
+        lblTitle.setText("Selecionar Atletas Vencedores " + grupo.getNum());
+        this.grupo = grupo;
+        this.etapa = etapa;
         inicialize();
     }
 
@@ -79,12 +76,21 @@ public class SelecionarAtletasPage extends JFrame{
 
     private void btnConfirmarClickedActionPerformed(){
         for (int i = 0; i<tableAtletas.getRowCount(); i++){
-            if (tableAtletas.getValueAt(i,7).equals("Selecionado") && this.tWithAtletas.atletaCanBeRemoved(GestorAtletas.getInstance().getAtletas().get(i))){
-                this.tWithAtletas.adicionarAtleta(GestorAtletas.getInstance().getAtletas().get(i));
+            if (tableAtletas.getValueAt(i,8).equals("Vencedor")){
+                this.grupo.adicionarVencedor(grupo.getAtletas().get(i));
             }
-            if (tableAtletas.getValueAt(i,7).equals("Selecionar") && this.tWithAtletas.atletaCanBeRemoved(GestorAtletas.getInstance().getAtletas().get(i))){
-                this.tWithAtletas.removerAtleta(GestorAtletas.getInstance().getAtletas().get(i));
+            if (tableAtletas.getValueAt(i,8).equals("Perdedor")){
+                this.grupo.removerVencedor(grupo.getAtletas().get(i));
             }
+        }
+        int i = 0;
+        for (Grupo grupo:etapa.getGrupos()) {
+            if (grupo.getResultados().size() == grupo.getAtletas().size()){
+                i++;
+            }
+        }
+        if (etapa.getGrupos().size() == i) {
+            etapa.setConcluido();
         }
         dispose();
     }
@@ -94,8 +100,8 @@ public class SelecionarAtletasPage extends JFrame{
         //DATA FOR OUR TABLE
         Object[][] data = new Object[0][8];
         LinkedList<Atleta> atletas = new LinkedList<>();
-        if (tWithAtletas.getClass() == Grupo.class)
-            atletas = this.atletas;
+        if (grupo.getClass() == Grupo.class)
+            atletas = grupo.getAtletas();
         else
             atletas = GestorAtletas.getInstance().getAtletas();
 
@@ -103,45 +109,40 @@ public class SelecionarAtletasPage extends JFrame{
         for (Atleta atleta : atletas) {
             Object[][] dataAux = new Object[data.length+1][8];
             System.arraycopy(data, 0, dataAux, 0, data.length);
-            String aux = "Selecionar";
-            if (this.tWithAtletas.getAtletas().contains(atleta))
-                aux="Selecionado";
-            if (tWithAtletas.getClass() == Prova.class || tWithAtletas.getClass() == Grupo.class)
-                dataAux[i++] = new Object[]{atleta.getNome(),atleta.getPais(),atleta.getGenero(),atleta.getDataNascimento(),atleta.getContacto(), atleta.getTipoProvaPref(), "Provas", aux};
-            else
-                dataAux[i++] = new Object[]{atleta.getNome(),atleta.getPais(),atleta.getGenero(),atleta.getDataNascimento(),atleta.getContacto(), atleta.getTipoProvaPref(), "Provas"};
+            String aux = "Perdedor";
+            if (this.grupo.getVencedores().contains(atleta))
+                aux="Vencedor";
+
+            dataAux[i++] = new Object[]{atleta.getNome(),atleta.getPais(),atleta.getGenero(),atleta.getDataNascimento(),atleta.getContacto(), atleta.getTipoProvaPref(), this.grupo.getResultado(atleta).getValor(), "Provas", aux};
 
             data = dataAux.clone();
         }
 
         //COLUMN HEADERS
         String columnHeaders[];
-        if (tWithAtletas.getClass() == Prova.class || tWithAtletas.getClass() == Grupo.class)
-            columnHeaders = new String[]{"Nome","País","Género","Data de Nascimento","Contacto","Tipo de Prova Pref.","", ""};
-        else
-            columnHeaders =new String[]{"Nome","País","Género","Data de Nascimento","Contacto","Tipo de Prova Pref.",""};
+        columnHeaders = new String[]{"Nome","País","Género","Data de Nascimento","Contacto","Tipo de Prova Pref.", "Resultado","", "Vencedores"};
 
         tableAtletas.setModel(new DefaultTableModel(
                 data,columnHeaders
         ));
         //SET CUSTOM RENDERER TO TEAMS COLUMN
-        tableAtletas.getColumnModel().getColumn(6).setCellRenderer(new ButtonSelecionarAtletasPageRenderer());
-        if (tWithAtletas.getClass() == Prova.class || tWithAtletas.getClass() == Grupo.class)
-            tableAtletas.getColumnModel().getColumn(7).setCellRenderer(new ButtonSelecionarAtletasPageRenderer());
+        tableAtletas.getColumnModel().getColumn(7).setCellRenderer(new ButtonAtletasVencedoresPageRenderer());
+        if (grupo.getClass() == Grupo.class)
+            tableAtletas.getColumnModel().getColumn(8).setCellRenderer(new ButtonAtletasVencedoresPageRenderer());
 
         //SET CUSTOM EDITOR TO TEAMS COLUMN
-        tableAtletas.getColumnModel().getColumn(6).setCellEditor(new ButtonSelecionarAtletasPageEditor(new JTextField(), this.tWithAtletas));
-        if (tWithAtletas.getClass() == Prova.class || tWithAtletas.getClass() == Grupo.class)
-            tableAtletas.getColumnModel().getColumn(7).setCellEditor(new ButtonSelecionarAtletasPageEditor(new JTextField(), this.tWithAtletas));
+        tableAtletas.getColumnModel().getColumn(7).setCellEditor(new ButtonAtletasVencedoresPageEditor(new JTextField(), this.grupo));
+        if (grupo.getClass() == Grupo.class)
+            tableAtletas.getColumnModel().getColumn(8).setCellEditor(new ButtonAtletasVencedoresPageEditor(new JTextField(), this.grupo));
 
     }
 }
 
-class ButtonSelecionarAtletasPageRenderer extends JButton implements TableCellRenderer
+class ButtonAtletasVencedoresPageRenderer extends JButton implements TableCellRenderer
 {
 
     //CONSTRUCTOR
-    public ButtonSelecionarAtletasPageRenderer() {
+    public ButtonAtletasVencedoresPageRenderer() {
         //SET BUTTON PROPERTIES
         setOpaque(true);
     }
@@ -157,17 +158,17 @@ class ButtonSelecionarAtletasPageRenderer extends JButton implements TableCellRe
 
 }
 
-class ButtonSelecionarAtletasPageEditor extends DefaultCellEditor
+class ButtonAtletasVencedoresPageEditor extends DefaultCellEditor
 {
     protected JButton btn;
     private String lbl;
     private Boolean clicked;
     private int row;
-    private ObjectWithAtletas tWithAtletas;
+    private Grupo Grupo;
 
-    public ButtonSelecionarAtletasPageEditor(JTextField txt, ObjectWithAtletas tWithAtletas) {
+    public ButtonAtletasVencedoresPageEditor(JTextField txt, Grupo Grupo) {
         super(txt);
-        this.tWithAtletas = tWithAtletas;
+        this.Grupo = Grupo;
         btn=new JButton();
         btn.setOpaque(true);
 
@@ -209,13 +210,9 @@ class ButtonSelecionarAtletasPageEditor extends DefaultCellEditor
                     provasAtletaPage.pack();
                     provasAtletaPage.setVisible(true);
                     break;
-                case "Selecionar", "Selecionado":
+                case "Perdedor", "Vencedor":
                     //JOptionPane.showMessageDialog(btn, lbl+" Clicked");
-                    if (this.tWithAtletas.atletaCanBeRemoved(GestorAtletas.getInstance().getAtletas().get(row)))
-                        lbl = lbl.equals("Selecionar") ? "Selecionado" : "Selecionar";
-                    else
-                        JOptionPane.showMessageDialog(btn, "O atleta já está em uso em alguma etapa desta prova!");
-                    break;
+                    lbl = lbl.equals("Perdedor") ? "Vencedor" : "Perdedor";
             }
         }
         //SET IT TO FALSE NOW THAT ITS CLICKED

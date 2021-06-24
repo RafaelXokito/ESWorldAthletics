@@ -1,4 +1,7 @@
-package Eventos;
+package Etapas;
+
+import Atletas.SelecionarAtletasPage;
+import Provas.Prova;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -7,42 +10,53 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class JanelaCriarEvento extends JFrame{
+public class NovaEtapaProva extends JFrame{
     private JPanel painelPrincipal;
     private JButton buttonImportar;
     private JButton buttonApagar;
-    private JTextField textFieldNome;
+    private JTextField textFieldTipoProva;
     private JTextField textFieldDtaInicio;
-    private JTextField textFieldPais;
+    private JTextField textFieldCriterio;
     private JTextField textFieldDtaFim;
-    private JTextField textFieldLocal;
     private JButton confirmarButton;
     private JPanel painelContent;
     private JFormattedTextField formattedTextFieldDtaInicio;
     private JFormattedTextField formattedTextFieldDtaFim;
-    private JFormattedTextField formattedTextFieldTipoProva;
+    private JLabel lblTitle;
+    private JButton btnSelecionarAtletas;
 
-    private boolean textFieldNomeClicked=false;
-    private boolean textFieldPaisClicked=false;
-    private boolean textFieldLocalClicked=false;
+    private boolean textFieldTipoProvaClicked=false;
+    private boolean textFieldCriterioClicked=false;
     private boolean formatedTextFieldDtaInicioClicked=false;
     private boolean formatedTextFieldDtaFimClicked=false;
 
-    public JanelaCriarEvento(){
-        super("NovoEvento");
+    private Prova prova;
+    public NovaEtapaProva(String metodo, Prova prova){
+        super("NovaEtapaProva "+metodo);
+        this.prova = prova;
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setContentPane(painelPrincipal);
         setVisible(true);
         pack();
 
+        lblTitle.setText(metodo);
 
-        textFieldNome.setToolTipText("Nome");
-        textFieldPais.setToolTipText("País");
-        textFieldLocal.setToolTipText("Local");
+        if (metodo.equals("Criar Etapa")) {
+            buttonApagar.setText("Cancelar");
+        }
+        else {
+            buttonApagar.setText("Apagar");
+
+            textFieldTipoProva.setText(prova.getTipoProva().toString());
+            textFieldCriterio.setText(prova.getCriterioProva());
+            formattedTextFieldDtaInicio.setText(prova.getDataInicio().toString());
+            formattedTextFieldDtaFim.setText(prova.getDataFimPrevisto().toString());
+        }
+
+        textFieldTipoProva.setToolTipText("Tipo de Prova");
+        textFieldCriterio.setToolTipText("Criterio");
         formattedTextFieldDtaInicio.setToolTipText("Data de inicio");
         formattedTextFieldDtaFim.setToolTipText("Data de fim");
-
-
 
         buttonApagar.addActionListener(new ActionListener() {
             @Override
@@ -51,13 +65,20 @@ public class JanelaCriarEvento extends JFrame{
             }
         });
 
-        textFieldNome.addMouseListener(new MouseAdapter() {
+        btnSelecionarAtletas.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnSelecionarAtletasClickedActionPerformed();
+            }
+        });
+
+        textFieldTipoProva.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if (textFieldNomeClicked == false) {
-                    textFieldNome.setText("");
-                    textFieldNomeClicked = true;
+                if (textFieldTipoProvaClicked == false) {
+                    textFieldTipoProva.setText("");
+                    textFieldTipoProvaClicked = true;
                 }
             }
         });
@@ -72,13 +93,13 @@ public class JanelaCriarEvento extends JFrame{
             }
         });
 
-        textFieldPais.addMouseListener(new MouseAdapter() {
+        textFieldCriterio.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if (textFieldPaisClicked == false) {
-                    textFieldPais.setText("");
-                    textFieldPaisClicked = true;
+                if (textFieldCriterioClicked == false) {
+                    textFieldCriterio.setText("");
+                    textFieldCriterioClicked = true;
                 }
             }
 
@@ -94,16 +115,6 @@ public class JanelaCriarEvento extends JFrame{
                 }
             }
         });
-        textFieldLocal.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                if (textFieldLocalClicked == false) {
-                    textFieldLocal.setText("");
-                    textFieldLocalClicked = true;
-                }
-            }
-        });
         buttonImportar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -116,17 +127,19 @@ public class JanelaCriarEvento extends JFrame{
                     System.out.println("You chose to open this file: " +
                             chooser.getSelectedFile().getName());
                 }
-
-
-
             }
         });
     }
 
+    private void btnSelecionarAtletasClickedActionPerformed(){
+        SelecionarAtletasPage selecionarAtletasPage = new SelecionarAtletasPage(this.prova);
+        selecionarAtletasPage.pack();
+        selecionarAtletasPage.setVisible(true);
+    }
+
     private void apagar() {
-        textFieldNome.setText("");
-        textFieldPais.setText("");
-        textFieldLocal.setText("");
+        textFieldTipoProva.setText("");
+        textFieldCriterio.setText("");
         formattedTextFieldDtaInicio.setText("");
         formattedTextFieldDtaFim.setText("");
     }

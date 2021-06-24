@@ -25,6 +25,7 @@ public class JanelaEventos extends JFrame{
     private JTable table1;
 
     public JanelaEventos(){
+        super("EventosPage");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setContentPane(painelPrincipal);
         setVisible(true);

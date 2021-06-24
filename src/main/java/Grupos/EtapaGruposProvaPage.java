@@ -1,7 +1,15 @@
+package Grupos;
+
+import Atletas.Atleta;
+import Atletas.SelecionarAtletasPage;
 import Etapas.Etapa;
+import Etapas.EtapaProvaPage;
 import Eventos.Evento;
 import Eventos.GestorEventos;
 import Provas.Prova;
+import Resultados.AtletasVencedoresPage;
+import Resultados.RegistosAtletasPage;
+import Utils.TipoProva;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -13,17 +21,22 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 
-public class CalendárioEliminatorioPage extends JFrame{
+public class EtapaGruposProvaPage extends JFrame{
     private JPanel painelPrincipal;
     private JButton buttonVoltar;
     private JTable tableEventos;
     private JTextField pesquisaTextField;
     private JScrollPane sp;
+    private JLabel lblTitle;
     private JPanel panelBottom;
     private JButton buttonConfirmar;
     private JButton buttonCancelar;
+    private Etapa etapa;
 
-    public CalendárioEliminatorioPage(){
+    public EtapaGruposProvaPage(TipoProva tipoProva, Etapa etapa){
+        super("EtapaGruposProvaPage - Etapas de " + tipoProva.toString() + " " + etapa.getRonda() + " " + etapa.getGrupos().size());
+        this.etapa = etapa;
+        lblTitle.setText("Etapas de " + tipoProva.toString() + etapa.getRonda() + " " + etapa.getGrupos().size());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setContentPane(painelPrincipal);
         setVisible(true);
@@ -49,35 +62,30 @@ public class CalendárioEliminatorioPage extends JFrame{
     private void createTable(){
 
         //DATA FOR OUR TABLE
-        GestorProvasEliminatorias gestorProvasEliminatorias = GestorProvasEliminatorias.getInstance();
-        LinkedList<Evento> eventos = GestorEventos.getInstance().getEventos();
         Object[][] data = new Object[0][8];
         int i = 0;
-        for (Evento evento : eventos) {
-            for (Prova prova : evento.getProvas()) {
-                for (Etapa etapa : prova.getEtapas()) {
-                    if (etapa.getGrupos().size() >= 2 && !etapa.getConcluido()){
-                        Object[][] dataAux = new Object[data.length+1][8];
-                        System.arraycopy(data, 0, dataAux, 0, data.length);
-                        gestorProvasEliminatorias.adicionarEtapaEliminatoria(etapa);
-                        dataAux[i++] = new Object[]{etapa.getDataInicio(),etapa.getDiaCompeticao(),etapa.getHora(),etapa.getGenero().toString(), etapa.getRonda(), prova.getTipoProva().toString(), evento.getNome(),"Abrir Atletas"};
-                        data = dataAux.clone();
-                    }
-                }
-            }
+        for (Grupo grupo : etapa.getGrupos()) {
+            Object[][] dataAux = new Object[data.length+1][8];
+            System.arraycopy(data, 0, dataAux, 0, data.length);
+            dataAux[i++] = new Object[]{grupo.getNum(),grupo.getAtletas().size(),"Registar Valores","Selecionar Vencedores", "Selecionar Atletas"};
+            data = dataAux.clone();
         }
 
         //COLUMN HEADERS
-        String columnHeaders[]={"Data Inicio","Dia Competição","Hora","Género","Ronda","Tipo Provas.Prova","Eventos.Evento", ""};
+        String columnHeaders[]={"Numero do Grupo","Número de Atletas","","",""};
 
         tableEventos.setModel(new DefaultTableModel(
                 data,columnHeaders
         ));
         //SET CUSTOM RENDERER TO TEAMS COLUMN
-        tableEventos.getColumnModel().getColumn(7).setCellRenderer(new ButtonRenderer());
+        tableEventos.getColumnModel().getColumn(2).setCellRenderer(new ButtonRenderer());
+        tableEventos.getColumnModel().getColumn(3).setCellRenderer(new ButtonRenderer());
+        tableEventos.getColumnModel().getColumn(4).setCellRenderer(new ButtonRenderer());
 
         //SET CUSTOM EDITOR TO TEAMS COLUMN
-        tableEventos.getColumnModel().getColumn(7).setCellEditor(new ButtonEditor(new JTextField()));
+        tableEventos.getColumnModel().getColumn(2).setCellEditor(new ButtonEditor(new JTextField(), this.etapa));
+        tableEventos.getColumnModel().getColumn(3).setCellEditor(new ButtonEditor(new JTextField(), this.etapa));
+        tableEventos.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor(new JTextField(), this.etapa));
 
     }
 
@@ -108,10 +116,12 @@ class ButtonEditor extends DefaultCellEditor
     protected JButton btn;
     private String lbl;
     private Boolean clicked;
+    private int row;
+    private Etapa etapa;
 
-    public ButtonEditor(JTextField txt) {
+    public ButtonEditor(JTextField txt, Etapa etapa) {
         super(txt);
-
+        this.etapa = etapa;
         btn=new JButton();
         btn.setOpaque(true);
 
@@ -135,6 +145,7 @@ class ButtonEditor extends DefaultCellEditor
         lbl=(obj==null) ? "":obj.toString();
         btn.setText(lbl);
         clicked=true;
+        this.row = row;
         return btn;
     }
 
@@ -145,7 +156,23 @@ class ButtonEditor extends DefaultCellEditor
         if(clicked)
         {
             //SHOW US SOME MESSAGE
-            JOptionPane.showMessageDialog(btn, lbl+" Clicked");
+            //JOptionPane.showMessageDialog(btn, lbl+" Clicked");
+            //EtapaProvaPage etapaProvaPage = new EtapaProvaPage(this.provas.get(row));
+            //etapaProvaPage.setVisible(true);
+            switch(lbl){
+                case "Selecionar Atletas":
+                    var selecionarAtletasPage = new SelecionarAtletasPage(this.etapa.getGrupos().get(row), this.etapa.getAtletas());
+                    selecionarAtletasPage.setVisible(true);
+                    break;
+                case "Selecionar Vencedores":
+                    var etapaGruposProvaPage = new AtletasVencedoresPage(this.etapa.getGrupos().get(row), this.etapa);
+                    etapaGruposProvaPage.setVisible(true);
+                    break;
+                case "Registar Valores":
+                    var registosAtletasPage = new RegistosAtletasPage(this.etapa.getGrupos().get(row), this.etapa);
+                    registosAtletasPage.setVisible(true);
+                    break;
+            }
         }
         //SET IT TO FALSE NOW THAT ITS CLICKED
         clicked=false;

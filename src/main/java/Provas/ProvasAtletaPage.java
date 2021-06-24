@@ -1,7 +1,7 @@
 package Provas;
 
 import Atletas.Atleta;
-import Etapas.Etapa;
+import Etapas.EtapaProvaPage;
 import Eventos.Evento;
 import Eventos.GestorEventos;
 
@@ -26,10 +26,12 @@ public class ProvasAtletaPage extends JFrame{
     private JButton buttonConfirmar;
     private JButton buttonCancelar;
     private Atleta atleta;
+    private LinkedList<Prova> provas;
 
     public ProvasAtletaPage(Atleta atleta){
-        super(atleta.getNome());
+        super("ProvasAtletaPage "+atleta.getNome());
         this.atleta = atleta;
+        provas = new LinkedList<>();
         lblTitle.setText("Provas de " + atleta.getNome());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setContentPane(painelPrincipal);
@@ -67,6 +69,7 @@ public class ProvasAtletaPage extends JFrame{
                         System.arraycopy(data, 0, dataAux, 0, data.length);
                         dataAux[i++] = new Object[]{evento.getNome(),prova.getTipoProva(),prova.getEtapas().size(),evento.getDataInicio(), evento.getDataFim(), "", "Abrir Prova"};
                         data = dataAux.clone();
+                        provas.add(prova);
                     }
                 }
             }
@@ -82,7 +85,7 @@ public class ProvasAtletaPage extends JFrame{
         tableEventos.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer());
 
         //SET CUSTOM EDITOR TO TEAMS COLUMN
-        tableEventos.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JTextField()));
+        tableEventos.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JTextField(), this.provas));
 
     }
 
@@ -113,10 +116,12 @@ class ButtonEditor extends DefaultCellEditor
     protected JButton btn;
     private String lbl;
     private Boolean clicked;
+    private int row;
+    private LinkedList<Prova> provas;
 
-    public ButtonEditor(JTextField txt) {
+    public ButtonEditor(JTextField txt, LinkedList<Prova> provas) {
         super(txt);
-
+        this.provas = provas;
         btn=new JButton();
         btn.setOpaque(true);
 
@@ -140,6 +145,7 @@ class ButtonEditor extends DefaultCellEditor
         lbl=(obj==null) ? "":obj.toString();
         btn.setText(lbl);
         clicked=true;
+        this.row = row;
         return btn;
     }
 
@@ -150,7 +156,9 @@ class ButtonEditor extends DefaultCellEditor
         if(clicked)
         {
             //SHOW US SOME MESSAGE
-            JOptionPane.showMessageDialog(btn, lbl+" Clicked");
+            //JOptionPane.showMessageDialog(btn, lbl+" Clicked");
+            EtapaProvaPage etapaProvaPage = new EtapaProvaPage(this.provas.get(row));
+            etapaProvaPage.setVisible(true);
         }
         //SET IT TO FALSE NOW THAT ITS CLICKED
         clicked=false;

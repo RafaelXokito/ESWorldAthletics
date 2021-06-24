@@ -30,7 +30,7 @@ public class Homepage extends JFrame {
         super(title);
 
         Evento evento1 = new Evento("Jogos Olimpicos", "China", "Tokio",  new Data(2022, 6, 23),new Data(2022,7,23));
-        Prova prova1evento1 = new Prova(TipoProva.Salto_em_Comprimento, "Menor Valor", new Data(2022,6,24), new Data(2022,7, 22));
+        Prova prova1evento1 = new Prova(TipoProva.Salto_em_Comprimento, "Menor Valor", new Data(2022,6,24), new Data(2022,7, 22), evento1,'<');
         Atleta atletaRafael = new Atleta("Rafael Mendes Pereira", "Portugal", Genero.M, new Data(2000, 9, 3), "910000000", TipoProva.Salto_em_Comprimento);
         Atleta atletaBruna = new Atleta("Bruna Alexandra Marques Leitão", "Portugal", Genero.F, new Data(2001,7,8), "920000000", TipoProva.Salto_em_Altura);
         Atleta atletaLucas = new Atleta("Lucas", "Portugal", Genero.M, new Data(1999,1,28), "930000000", TipoProva.Salto_em_Altura);
@@ -39,15 +39,16 @@ public class Homepage extends JFrame {
         GestorAtletas.getInstance().addAtleta(atletaLucas);
         prova1evento1.adicionarAtleta(atletaRafael);
         prova1evento1.adicionarAtleta(atletaBruna);
-        Etapa evento1prova1 = new Etapa("24-06-2022", "09:00", "Quartos-Final", "24", Genero.Nao_Defenido, "10");
+        Etapa evento1prova1 = new Etapa("24-06-2022", "09:00", "Quartos-Final", "24", Genero.Nao_Defenido, "10", prova1evento1);
         LinkedList<Atleta> linkedListAtletas = new LinkedList<Atleta>();
         linkedListAtletas.add(atletaRafael);
-        Grupo grupo1etapa1prova1 = new Grupo(linkedListAtletas);
+        Grupo grupo1etapa1prova1 = new Grupo(1,linkedListAtletas, evento1prova1);
         linkedListAtletas = new LinkedList<Atleta>();
         linkedListAtletas.add(atletaBruna);
-        Grupo grupo2etapa1prova1 = new Grupo(linkedListAtletas);
-        grupo1etapa1prova1.adicionarResultado(new Resultado(atletaRafael,1.7, new Data(2022, 6, 24)));
-        grupo2etapa1prova1.adicionarResultado(new Resultado(atletaBruna,1.8, new Data(2022, 6, 25)));
+        Grupo grupo2etapa1prova1 = new Grupo(2,linkedListAtletas, evento1prova1);
+        grupo1etapa1prova1.adicionarResultado(new Resultado(atletaRafael,1.7, new Data(2022, 6, 24), grupo1etapa1prova1));
+        grupo1etapa1prova1.computeVencedores();
+        grupo2etapa1prova1.adicionarResultado(new Resultado(atletaBruna,1.8, new Data(2022, 6, 25), grupo2etapa1prova1));
         evento1prova1.adicionarGrupo(grupo1etapa1prova1);
         evento1prova1.adicionarGrupo(grupo2etapa1prova1);
         prova1evento1.adicionarEtapa(evento1prova1);

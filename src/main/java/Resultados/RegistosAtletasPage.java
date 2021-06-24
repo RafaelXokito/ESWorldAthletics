@@ -1,11 +1,11 @@
-package Provas;
+package Resultados;
 
-
-
-import Atletas.SelecionarAtletasPage;
-import Etapas.EtapaProvaPage;
-import Eventos.Evento;
-import Eventos.GestorEventos;
+import Atletas.Atleta;
+import Atletas.GestorAtletas;
+import Atletas.NovoAtleta;
+import Etapas.Etapa;
+import Grupos.Grupo;
+import Provas.ProvasAtletaPage;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -13,29 +13,32 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 
-public class JanelaProvas extends JFrame{
+public class RegistosAtletasPage extends JFrame{
     private JPanel painelPrincipal;
     private JButton buttonVoltar;
-    private JButton button1;
-    private JTextField pesquisarTextField;
-    private JTable tableProvas;
-    private JLabel lblNomeEvento;
+    private JTable tableAtletas;
+    private JTextField pesquisaTextField;
+    private JScrollPane sp;
+    private JPanel panelBottom;
+    private JButton buttonConfirmar;
+    private JButton buttonCancelar;
 
-    private Evento evento;
+    private Grupo grupo;
+    private Etapa etapa;
 
-    public JanelaProvas(Evento evento){
-        super("ProvasPage "+ evento.getNome());
-        lblNomeEvento.setText(evento.getNome());
-        this.evento = evento;
+    public RegistosAtletasPage(Grupo grupo, Etapa etapa){
+        super("RegistosAtletasPage - Atletas para registo de resultados");
+        this.grupo = grupo;
+        this.etapa = etapa;
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setContentPane(painelPrincipal);
         setVisible(true);
 
         pack();
-
-        createTable();
 
         buttonVoltar.addActionListener(new ActionListener() {
             @Override
@@ -43,43 +46,47 @@ public class JanelaProvas extends JFrame{
                 dispose();
             }
         });
+        pesquisaTextField.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                pesquisaTextField.setText("");
+            }
+        });
+
+        createTable();
+
     }
-
-
-
     private void createTable(){
 
         Object[][] data = new Object[0][8];
+
         int i = 0;
-        for (Prova prova : evento.getProvas()) {
+        for (Atleta atleta : grupo.getAtletas()) {
             Object[][] dataAux = new Object[data.length+1][8];
             System.arraycopy(data, 0, dataAux, 0, data.length);
-            dataAux[i++] = new Object[]{prova.getTipoProva(),prova.getEtapas().size(),prova.getDataInicio(),prova.getDataFimPrevisto(),"Alterar", "Abrir Atletas", "Abrir Prova"};
+            dataAux[i++] = new Object[]{atleta.getNome(),atleta.getPais(),atleta.getGenero(),atleta.getDataNascimento(), atleta.getContacto(), atleta.getTipoProvaPref(), grupo.getResultado(atleta) == null ? "" : grupo.getResultado(atleta).getValor(), "Registar",};
             data = dataAux.clone();
         }
 
-        tableProvas.setModel(new DefaultTableModel(
+        tableAtletas.setModel(new DefaultTableModel(
                 data,
-                new Object[]{"Tipo Prova", "Nº Etapas", "Data Inicio", "Data Fim","", "", ""}
+                new Object[]{"Nome", "País", "Género", "Data Nascimento", "Contacto", "Tipo Prova Preferida", "Valor", ""}
         ));
         //SET CUSTOM RENDERER TO TEAMS COLUMN
-        tableProvas.getColumnModel().getColumn(4).setCellRenderer(new ButtonJanelaProvasRenderer());
-        tableProvas.getColumnModel().getColumn(5).setCellRenderer(new ButtonJanelaProvasRenderer());
-        tableProvas.getColumnModel().getColumn(6).setCellRenderer(new ButtonJanelaProvasRenderer());
+        tableAtletas.getColumnModel().getColumn(7).setCellRenderer(new ButtonRenderer());
 
         //SET CUSTOM EDITOR TO TEAMS COLUMN
-        tableProvas.getColumnModel().getColumn(4).setCellEditor(new ButtonJanelaProvasEditor(new JTextField(), this.evento));
-        tableProvas.getColumnModel().getColumn(5).setCellEditor(new ButtonJanelaProvasEditor(new JTextField(), this.evento));
-        tableProvas.getColumnModel().getColumn(6).setCellEditor(new ButtonJanelaProvasEditor(new JTextField(), this.evento));
-
+        tableAtletas.getColumnModel().getColumn(7).setCellEditor(new ButtonEditor(new JTextField(),this.grupo, this.etapa));
     }
+
 }
 
-class ButtonJanelaProvasRenderer extends JButton implements TableCellRenderer
+class ButtonRenderer extends JButton implements TableCellRenderer
 {
 
     //CONSTRUCTOR
-    public ButtonJanelaProvasRenderer() {
+    public ButtonRenderer() {
         //SET BUTTON PROPERTIES
         setOpaque(true);
     }
@@ -95,18 +102,19 @@ class ButtonJanelaProvasRenderer extends JButton implements TableCellRenderer
 
 }
 
-class ButtonJanelaProvasEditor extends DefaultCellEditor
+class ButtonEditor extends DefaultCellEditor
 {
     protected JButton btn;
     private String lbl;
     private Boolean clicked;
     private int row;
-    private Evento evento;
+    private Grupo grupo;
+    private Etapa etapa;
 
-    public ButtonJanelaProvasEditor(JTextField txt, Evento evento) {
+    public ButtonEditor(JTextField txt, Grupo grupo, Etapa etapa) {
         super(txt);
-
-        this.evento = evento;
+        this.grupo = grupo;
+        this.etapa = etapa;
         btn=new JButton();
         btn.setOpaque(true);
 
@@ -129,32 +137,21 @@ class ButtonJanelaProvasEditor extends DefaultCellEditor
         //SET TEXT TO BUTTON,SET CLICKED TO TRUE,THEN RETURN THE BTN OBJECT
         lbl=(obj==null) ? "":obj.toString();
         btn.setText(lbl);
-        clicked=true;
         this.row = row;
+        clicked=true;
         return btn;
     }
 
     //IF BUTTON CELL VALUE CHNAGES,IF CLICKED THAT IS
     @Override
     public Object getCellEditorValue() {
-
         if(clicked)
         {
             //SHOW US SOME MESSAGE
-            //JOptionPane.showMessageDialog(btn, lbl+" Clicked");
-            switch(lbl){
-                case "Abrir Prova":
-                    var etapaProvaPage = new EtapaProvaPage(this.evento.getProvas().get(row));
-                    etapaProvaPage.setVisible(true);
-                    break;
-                case "Abrir Atletas":
-                    var selecionarAtletasPage = new SelecionarAtletasPage(this.evento.getProvas().get(row));
-                    selecionarAtletasPage.setVisible(true);
-                    break;
-                case "Alterar":
-                    var novaProva = new NovaProva("Alterar Prova", this.evento.getProvas().get(row));
-                    novaProva.setVisible(true);
-                    break;
+            //JOptionPane.showMessageDialog(btn, row+" Clicked");
+            if (lbl.equals("Registar")) {
+                RegistoResultadosAtletaGrupoEtapa registoResultadosAtletaGrupoEtapa = new RegistoResultadosAtletaGrupoEtapa("Registar", this.grupo.getAtletas().get(row), this.grupo, this.etapa);
+                registoResultadosAtletaGrupoEtapa.setVisible(true);
             }
         }
         //SET IT TO FALSE NOW THAT ITS CLICKED

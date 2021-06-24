@@ -26,6 +26,7 @@ public class AtletasPage extends JFrame{
     private JButton buttonCancelar;
 
     public AtletasPage(){
+        super("AtletasPage");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setContentPane(painelPrincipal);
         setVisible(true);
