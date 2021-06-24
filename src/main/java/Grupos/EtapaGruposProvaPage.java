@@ -1,12 +1,7 @@
 package Grupos;
 
-import Atletas.Atleta;
 import Atletas.SelecionarAtletasPage;
 import Etapas.Etapa;
-import Etapas.EtapaProvaPage;
-import Eventos.Evento;
-import Eventos.GestorEventos;
-import Provas.Prova;
 import Resultados.AtletasVencedoresPage;
 import Resultados.RegistosAtletasPage;
 import Utils.TipoProva;
@@ -19,7 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.LinkedList;
 
 public class EtapaGruposProvaPage extends JFrame{
     private JPanel painelPrincipal;
@@ -165,8 +159,7 @@ class ButtonEditor extends DefaultCellEditor
                     selecionarAtletasPage.setVisible(true);
                     break;
                 case "Selecionar Vencedores":
-                    var etapaGruposProvaPage = new AtletasVencedoresPage(this.etapa.getGrupos().get(row), this.etapa);
-                    etapaGruposProvaPage.setVisible(true);
+                    selecionarVencedoresPageInRowClicked();
                     break;
                 case "Registar Valores":
                     registarValoresInRowClicked();
@@ -176,6 +169,11 @@ class ButtonEditor extends DefaultCellEditor
         //SET IT TO FALSE NOW THAT ITS CLICKED
         clicked=false;
         return new String(lbl);
+    }
+
+    void selecionarVencedoresPageInRowClicked() {
+        var etapaGruposProvaPage = new AtletasVencedoresPage(this.etapa.getGrupos().get(row), this.etapa);
+        etapaGruposProvaPage.setVisible(true);
     }
 
     private void registarValoresInRowClicked() {

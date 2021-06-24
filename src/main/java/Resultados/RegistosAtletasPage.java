@@ -150,13 +150,17 @@ class ButtonEditor extends DefaultCellEditor
             //SHOW US SOME MESSAGE
             //JOptionPane.showMessageDialog(btn, row+" Clicked");
             if (lbl.equals("Registar")) {
-                RegistoResultadosAtletaGrupoEtapa registoResultadosAtletaGrupoEtapa = new RegistoResultadosAtletaGrupoEtapa("Registar", this.grupo.getAtletas().get(row), this.grupo, this.etapa);
-                registoResultadosAtletaGrupoEtapa.setVisible(true);
+                registarInRowClicked();
             }
         }
         //SET IT TO FALSE NOW THAT ITS CLICKED
         clicked=false;
         return new String(lbl);
+    }
+
+    void registarInRowClicked() {
+        RegistoResultadosAtletaGrupoEtapa registoResultadosAtletaGrupoEtapa = new RegistoResultadosAtletaGrupoEtapa("Registar", this.grupo.getAtletas().get(row), this.grupo, this.etapa);
+        registoResultadosAtletaGrupoEtapa.setVisible(true);
     }
 
     @Override

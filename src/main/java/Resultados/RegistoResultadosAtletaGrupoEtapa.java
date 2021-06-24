@@ -60,7 +60,7 @@ public class RegistoResultadosAtletaGrupoEtapa extends JFrame{
         buttonApagar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            apagar();
+                buttonApagarClicked();
             }
         });
         if (metodo.equals("Registar")) {
@@ -120,7 +120,7 @@ public class RegistoResultadosAtletaGrupoEtapa extends JFrame{
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
-    private void apagar() {
+    private void buttonApagarClicked() {
         textFieldValor.setText("");
         dispose();
     }
