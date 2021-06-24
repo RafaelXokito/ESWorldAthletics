@@ -9,6 +9,7 @@ import Resultados.Resultado;
 import Utils.Data;
 import Utils.Genero;
 import Utils.TipoProva;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,7 +17,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.LinkedList;
 
 public class ESWorldAtheleticsTests {
-    public void setup(){
+    @BeforeEach
+    void setUp() {
         Evento evento1 = new Evento("Jogos Olimpicos", "China", "Tokio",  new Data(2022, 6, 23),new Data(2022,7,23));
         Prova prova1evento1 = new Prova(TipoProva.Salto_em_Comprimento, "Menor Valor", new Data(2022,6,24), new Data(2022,7, 22), evento1,'<');
         Atleta atletaRafael = new Atleta("Rafael Mendes Pereira", "Portugal", Genero.M, new Data(2000, 9, 3), "910000000", TipoProva.Salto_em_Comprimento);
@@ -27,7 +29,7 @@ public class ESWorldAtheleticsTests {
         GestorAtletas.getInstance().addAtleta(atletaLucas);
         prova1evento1.adicionarAtleta(atletaRafael);
         prova1evento1.adicionarAtleta(atletaBruna);
-        Etapa evento1prova1 = new Etapa("24-06-2022", "09:00", "Quartos-Final", "24", Genero.Nao_Defenido, "10", prova1evento1);
+        Etapa evento1prova1 = new Etapa(new Data(2022, 6,24), "09:00", "Quartos-Final", "24", Genero.Nao_Defenido, "10", prova1evento1);
         LinkedList<Atleta> linkedListAtletas = new LinkedList<Atleta>();
         linkedListAtletas.add(atletaRafael);
         Grupo grupo1etapa1prova1 = new Grupo(1,linkedListAtletas, evento1prova1);
@@ -44,6 +46,7 @@ public class ESWorldAtheleticsTests {
 
         GestorEventos.getInstance().addEvento(evento1);
     }
+
     @Test
     public void testCreateEvento() {
         Evento evento1 = new Evento("Jogos Olimpicos", "China", "Tokio",  new Data(2022, 6, 23),new Data(2022,7,23));
@@ -53,7 +56,6 @@ public class ESWorldAtheleticsTests {
 
     @Test
     public void testDefinirAutomaticamenteCalendarioDeProvasEliminatorias(){
-        setup();
 
         GestorProvasEliminatorias gestorProvasEliminatorias = GestorProvasEliminatorias.getInstance();
         LinkedList<Evento> eventos = GestorEventos.getInstance().getEventos();
@@ -84,11 +86,10 @@ public class ESWorldAtheleticsTests {
 
     @Test
     public void testRegistarProgressoDeProvaEliminatória(){
-        setup();
+        LinkedList<Grupo> grupos = GestorEventos.getInstance().getEventos().getFirst().getProvas()
+                .getFirst().getEtapas().getFirst().getGrupos();
         int i = 0;
-        for (Grupo grupo:
-        GestorEventos.getInstance().getEventos().getFirst().getProvas()
-                .getFirst().getEtapas().getFirst().getGrupos()) {
+        for (Grupo grupo: grupos) {
             for (Atleta atleta : grupo.getAtletas()) {
                 if (grupo.getResultado(atleta) == null)
                     grupo.adicionarResultado(new Resultado(atleta,1.6,new Data(2020,6, 3), grupo));
@@ -103,5 +104,127 @@ public class ESWorldAtheleticsTests {
         }
         assertEquals(true, GestorEventos.getInstance().getEventos().getFirst().getProvas()
                 .getFirst().getEtapas().getFirst().getConcluido());
+    }
+
+    @Test
+    public void testRegistarResultadoDeProva(){
+        LinkedList<Grupo> grupos = GestorEventos.getInstance().getEventos().getFirst().getProvas()
+                .getFirst().getEtapas().getFirst().getGrupos();
+        for (Grupo grupo: grupos) {
+            for (Atleta atleta : grupo.getAtletas()) {
+                if (grupo.getResultado(atleta) == null) {
+                    grupo.adicionarResultado(new Resultado(atleta, 1.6, new Data(2020, 6, 3), grupo));
+                    assertEquals(true, grupo.getResultado(atleta) != null);
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testEfetuarListagemDeProvasAQueUmDadoAtletaEstaInscrito(){
+        LinkedList<Prova> provas = new LinkedList<>();
+        Atleta atletaTest = GestorAtletas.getInstance().getAtletas().getFirst();
+        Object[][] data = new Object[0][8];
+        int i = 0;
+        LinkedList<Evento> eventos = GestorEventos.getInstance().getEventos();
+        for (Evento evento : eventos) {
+            for (Prova prova : evento.getProvas()) {
+                for (Atleta atleta : prova.getAtletas()) {
+                    if (atleta.equals(atletaTest)){
+                        Object[][] dataAux = new Object[data.length+1][8];
+                        System.arraycopy(data, 0, dataAux, 0, data.length);
+                        dataAux[i++] = new Object[]{evento.getNome(),prova.getTipoProva(),prova.getEtapas().size(),evento.getDataInicio(), evento.getDataFim(), "", "Abrir Prova"};
+                        data = dataAux.clone();
+                        provas.add(prova);
+                    }
+                }
+            }
+        }
+        assertEquals(true, data.length>0);
+    }
+
+    @Test
+    public void testEfetuarListagemDeInscritosPorProva(){
+        //DATA FOR OUR TABLE
+        Object[][] data = new Object[0][8];
+        LinkedList<Atleta> atletas = GestorAtletas.getInstance().getAtletas();
+        Prova prova = GestorEventos.getInstance().getEventos().getFirst().getProvas().getFirst();
+
+        int i = 0;
+        for (Atleta atleta : atletas) {
+            Object[][] dataAux = new Object[data.length+1][8];
+            System.arraycopy(data, 0, dataAux, 0, data.length);
+            String aux = "Selecionar";
+            if (prova.getAtletas().contains(atleta))
+                aux="Selecionado";
+
+            dataAux[i++] = new Object[]{atleta.getNome(),atleta.getPais(),atleta.getGenero(),atleta.getDataNascimento(),atleta.getContacto(), atleta.getTipoProvaPref(), "Provas", aux};
+
+            data = dataAux.clone();
+        }
+
+        assertEquals(true, data.length>0);
+    }
+
+    @Test
+    public void testListarOsRecordesDoMundoPorProva(){
+
+        LinkedList<Evento> eventos = GestorEventos.getInstance().getEventos();
+        LinkedList<TipoProva> tipoProvaLinkedList = new LinkedList<>();
+        LinkedList<Resultado> resultadoLinkedList = new LinkedList<>();
+        LinkedList<Evento> eventoLinkedList = new LinkedList<>();
+        Object[][] data = new Object[0][8];
+        int j = 0;
+        for (Evento evento : eventos) {
+            for (Prova prova : evento.getProvas()) {
+                for (Etapa etapa : prova.getEtapas()) {
+                    for (Grupo grupo: etapa.getGrupos()) {
+                        for (Resultado resultado : grupo.getResultados()) {
+                            if (tipoProvaLinkedList.contains(prova.getTipoProva())) {
+                                for (int i = 0; i < tipoProvaLinkedList.size(); i++){
+                                    if (tipoProvaLinkedList.get(i).equalsName(prova.getTipoProva().toString()) && resultadoLinkedList.get(i).getValor() < resultado.getValor()){
+                                        resultadoLinkedList.set(i,resultado);
+                                        eventoLinkedList.set(i,evento);
+
+                                        data[i] = new Object[]{prova.getTipoProva(),resultado.getValor(),resultado.getAtleta().getNome(),etapa.getGenero().toString(), evento.getPais(), resultado.getData(), evento.getLocal(),evento.getNome()};
+                                        break;
+                                    }
+                                }
+                            }else {
+                                tipoProvaLinkedList.add(prova.getTipoProva());
+                                resultadoLinkedList.add(resultado);
+                                eventoLinkedList.add(evento);
+
+                                Object[][] dataAux = new Object[data.length+1][8];
+                                System.arraycopy(data, 0, dataAux, 0, data.length);
+                                dataAux[j++] = new Object[]{prova.getTipoProva(),resultado.getValor(),resultado.getAtleta().getNome(),etapa.getGenero().toString(), evento.getPais(), resultado.getData(), evento.getLocal(),evento.getNome()};
+                                data = dataAux.clone();
+                            }
+
+                        }
+                    }
+                }
+
+            }
+        }
+        assertEquals(true, data.length>0);
+    }
+
+    @Test
+    public void testCriarAtleta(){
+        Atleta atletaRafael = new Atleta("Rafael Mendes Pereira", "Portugal", Genero.M, new Data(2000, 9, 3), "910000000", TipoProva.Salto_em_Comprimento);
+        assertEquals(true, atletaRafael != null);
+    }
+
+    @Test
+    public void testEditarAtleta(){
+        Atleta atleta = GestorAtletas.getInstance().getAtletas().getFirst();
+        atleta.setGenero(Genero.Nao_Defenido);
+        atleta.setTipoProvaPref(TipoProva.Salto_em_Altura);
+        atleta.setNome("Bruna Leitão");
+        atleta.setPais("Portugal");
+        atleta.setDataNascimento(new Data(2000, 6, 3));
+        atleta.setContacto("930000000");
+        assertEquals(true, atleta != null);
     }
 }

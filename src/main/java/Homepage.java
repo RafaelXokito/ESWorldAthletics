@@ -39,7 +39,7 @@ public class Homepage extends JFrame {
         GestorAtletas.getInstance().addAtleta(atletaLucas);
         prova1evento1.adicionarAtleta(atletaRafael);
         prova1evento1.adicionarAtleta(atletaBruna);
-        Etapa evento1prova1 = new Etapa("24-06-2022", "09:00", "Quartos-Final", "24", Genero.Nao_Defenido, "10", prova1evento1);
+        Etapa evento1prova1 = new Etapa( new Data(2022,6,24), "09:00", "Quartos-Final", "24", Genero.Nao_Defenido, "10", prova1evento1);
         LinkedList<Atleta> linkedListAtletas = new LinkedList<Atleta>();
         linkedListAtletas.add(atletaRafael);
         Grupo grupo1etapa1prova1 = new Grupo(1,linkedListAtletas, evento1prova1);

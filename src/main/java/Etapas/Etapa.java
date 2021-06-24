@@ -4,12 +4,13 @@ import Atletas.Atleta;
 import Grupos.Grupo;
 import Provas.ObjectWithAtletas;
 import Provas.Prova;
+import Utils.Data;
 import Utils.Genero;
 
 import java.util.LinkedList;
 
 public class Etapa  implements ObjectWithAtletas {
-    private String dataInicio;
+    private Data dataInicio;
     private String hora;
     private String ronda;
     private String diaCompeticao;
@@ -21,7 +22,7 @@ public class Etapa  implements ObjectWithAtletas {
 
     private Prova prova;
 
-    public Etapa(String dataInicio, String hora, String ronda, String diaCompeticao, Genero genero, String minimos, Prova prova) {
+    public Etapa(Data dataInicio, String hora, String ronda, String diaCompeticao, Genero genero, String minimos, Prova prova) {
         this.dataInicio = dataInicio;
         this.hora = hora;
         this.ronda = ronda;
@@ -45,11 +46,11 @@ public class Etapa  implements ObjectWithAtletas {
         return grupos;
     }
 
-    public String getDataInicio() {
+    public Data getDataInicio() {
         return dataInicio;
     }
 
-    public void setDataInicio(String dataInicio) {
+    public void setDataInicio(Data dataInicio) {
         this.dataInicio = dataInicio;
     }
 
