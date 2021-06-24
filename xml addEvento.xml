@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<eventos>
+    <evento>
+        <nome>eventoxml</nome>
+        <pais>Portugal</pais>
+        <local>Lisboa</local>
+        <dtaInicio>2000-10-12</dtaInicio>
+	  <dtaFim>2001-10-12</dtaFim>
+    </evento>
+</eventos>
