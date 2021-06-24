@@ -169,14 +169,18 @@ class ButtonEditor extends DefaultCellEditor
                     etapaGruposProvaPage.setVisible(true);
                     break;
                 case "Registar Valores":
-                    var registosAtletasPage = new RegistosAtletasPage(this.etapa.getGrupos().get(row), this.etapa);
-                    registosAtletasPage.setVisible(true);
+                    registarValoresInRowClicked();
                     break;
             }
         }
         //SET IT TO FALSE NOW THAT ITS CLICKED
         clicked=false;
         return new String(lbl);
+    }
+
+    private void registarValoresInRowClicked() {
+        var registosAtletasPage = new RegistosAtletasPage(this.etapa.getGrupos().get(row), this.etapa);
+        registosAtletasPage.setVisible(true);
     }
 
     @Override
