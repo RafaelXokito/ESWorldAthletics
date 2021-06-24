@@ -264,4 +264,41 @@ class ESWorldAtheleticsTests {
         }
         assertEquals(true, data.length>0);
     }
+
+    @Test
+    void testCriarEvento(){
+        Evento eventoTeste = new Evento("Evento Teste","Uganda", "Kampala",new Data(1900,11,20),new Data(1901,11,20));
+        assertEquals(true, eventoTeste != null);
+    }
+
+    @Test
+    void testEditarEvento(){
+        Evento evento = GestorEventos.getInstance().getEventos().getFirst();
+        evento.setNome("Teste");
+        evento.setPais("Canada");
+        evento.setLocal("Quebec");
+        evento.setDataInicio(new Data(2021,11,2));
+        evento.setDataFim(new Data(2022,11,2));
+        assertEquals(true, evento != null);
+    }
+    
+    @Test
+    void testCriarProva(){
+        Evento evento = GestorEventos.getInstance().getEventos().getFirst();
+       Prova provaTeste = new Prova(TipoProva.Salto_em_Altura, "maior pontuacao", new Data(1999,10,11), new Data(2000,10,11),evento,'a');
+       assertEquals(true, provaTeste != null);
+    }
+
+    @Test
+    void testEditarProva(){
+        Evento evento = GestorEventos.getInstance().getEventos().getFirst();
+        Prova provaTeste = evento.getProvas().getFirst();
+        provaTeste.setTipoProva(TipoProva.Salto_em_Comprimento);
+        provaTeste.setCriterioProva("menor pontuacao");
+        provaTeste.setDataInicio(new Data(2000,11,11));
+        provaTeste.setDataFimPrevisto(new Data(2021,12,25));
+    }
+
+
+
 }
