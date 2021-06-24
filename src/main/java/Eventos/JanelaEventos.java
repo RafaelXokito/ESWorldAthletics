@@ -16,11 +16,11 @@ import java.util.LinkedList;
 
 public class JanelaEventos extends JFrame{
     private JPanel painelPrincipal;
-    private JButton buttonVoltar;
+    private JButton btnVoltar;
     private JTable tableEventos;
     private JTextField pesquisaTextField;
     private JButton paisesMaisMedalhadosButton;
-    private JButton criarEventoButton;
+    private JButton btnCriarEvento;
     private JScrollPane sp;
     private JTable table1;
 
@@ -32,7 +32,7 @@ public class JanelaEventos extends JFrame{
 
         pack();
 
-        buttonVoltar.addActionListener(new ActionListener() {
+        btnVoltar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
@@ -49,9 +49,13 @@ public class JanelaEventos extends JFrame{
         createTable();
 
 
-        criarEventoButton.addActionListener(new ActionListener() {
+        btnCriarEvento.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                mostrarCriarEvento();
+            }
+
+            private void mostrarCriarEvento() {
                 var janelaCriarEventos = new JanelaCriarEvento();
                 janelaCriarEventos.setVisible(true);
             }

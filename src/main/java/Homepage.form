@@ -54,7 +54,7 @@
               <text value="Atletas"/>
             </properties>
           </component>
-          <component id="7acd" class="javax.swing.JButton" binding="buttonEventos">
+          <component id="7acd" class="javax.swing.JButton" binding="btnEventos">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="100" height="100"/>
