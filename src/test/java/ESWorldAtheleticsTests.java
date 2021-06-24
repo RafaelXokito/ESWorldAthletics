@@ -11,10 +11,17 @@ import Utils.Genero;
 import Utils.TipoProva;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 class ESWorldAtheleticsTests {
     @BeforeEach
@@ -263,5 +270,29 @@ class ESWorldAtheleticsTests {
             }
         }
         assertEquals(true, data.length>0);
+    }
+
+    @Test
+    void testImportarDadosDosAtletasAPartirDeFicheiro() {
+        try {
+            //  Block of code to try
+            int atletas = GestorAtletas.getInstance().getAtletas().size();
+            File file = new File("ESAtletaTeste.txt");
+            Scanner myReader = new Scanner(file);
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                String[] dataSplited = data.split("\\t");
+                GestorAtletas.getInstance().addAtleta(new Atleta(dataSplited[0],dataSplited[1], Genero.getGenero(dataSplited[2]),
+                        new Data(Integer.valueOf(dataSplited[3].split("-")[2]), Integer.valueOf(dataSplited[3].split("-")[1]), Integer.valueOf(dataSplited[3].split("-")[0])),
+                        dataSplited[4], TipoProva.getTipoProva(dataSplited[5])));
+                System.out.println(data);
+            }
+            myReader.close();
+            assertEquals(true, GestorAtletas.getInstance().getAtletas().size()>atletas);
+
+        }
+        catch(Exception e) {
+            throw new IllegalCallerException();
+        }
     }
 }

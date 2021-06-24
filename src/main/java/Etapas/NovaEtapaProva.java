@@ -31,9 +31,10 @@ public class NovaEtapaProva extends JFrame{
     private boolean formatedTextFieldDtaFimClicked=false;
 
     private Prova prova;
-    public NovaEtapaProva(String metodo, Prova prova){
+    private Etapa etapa;
+    public NovaEtapaProva(String metodo, Etapa etapa){
         super("NovaEtapaProva "+metodo);
-        this.prova = prova;
+        this.etapa = etapa;
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setContentPane(painelPrincipal);
         setVisible(true);
@@ -129,6 +130,11 @@ public class NovaEtapaProva extends JFrame{
                 }
             }
         });
+    }
+
+    public NovaEtapaProva(String metodo,Etapa etapa, Prova prova){
+        this(metodo,etapa);
+        this.prova = prova;
     }
 
     private void btnSelecionarAtletasClickedActionPerformed(){

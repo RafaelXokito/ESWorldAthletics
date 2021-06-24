@@ -2,8 +2,12 @@ package Atletas;
 
 import Eventos.JanelaCriarEvento;
 import Provas.ProvasAtletaPage;
+import Utils.Data;
+import Utils.Genero;
+import Utils.TipoProva;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
@@ -11,7 +15,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileNotFoundException;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 public class AtletasPage extends JFrame{
     private JPanel painelPrincipal;
@@ -57,7 +63,41 @@ public class AtletasPage extends JFrame{
                 novoAtleta.setVisible(true);
             }
         });
+
+        importarAtletasButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    importarFicheiro();
+                } catch (FileNotFoundException fileNotFoundException) {
+                    fileNotFoundException.printStackTrace();
+                }
+            }
+        });
     }
+
+    private void importarFicheiro() throws FileNotFoundException {
+        JFileChooser chooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "Text Files", "txt");
+        chooser.setFileFilter(filter);
+        int returnVal = chooser.showOpenDialog(painelPrincipal);
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+            System.out.println("You chose to open this file: " +
+                    chooser.getSelectedFile().getName());
+            Scanner myReader = new Scanner(chooser.getSelectedFile());
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                String[] dataSplited = data.split("\\t");
+                GestorAtletas.getInstance().addAtleta(new Atleta(dataSplited[0],dataSplited[1], Genero.getGenero(dataSplited[2]),
+                        new Data(Integer.valueOf(dataSplited[3].split("-")[2]), Integer.valueOf(dataSplited[3].split("-")[1]), Integer.valueOf(dataSplited[3].split("-")[0])),
+                        dataSplited[4], TipoProva.getTipoProva(dataSplited[5])));
+                System.out.println(data);
+            }
+            myReader.close();
+        }
+    }
+
     private void createTable(){
 
         Object[][] data = new Object[0][8];

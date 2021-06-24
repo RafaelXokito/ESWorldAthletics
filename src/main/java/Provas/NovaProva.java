@@ -1,7 +1,12 @@
 package Provas;
 
+import Atletas.Atleta;
 import Atletas.GestorAtletas;
 import Atletas.SelecionarAtletasPage;
+import Eventos.Evento;
+import Utils.Data;
+import Utils.Genero;
+import Utils.TipoProva;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -15,9 +20,7 @@ public class NovaProva extends JFrame{
     private JButton buttonImportar;
     private JButton buttonApagar;
     private JTextField textFieldTipoProva;
-    private JTextField textFieldDtaInicio;
     private JTextField textFieldCriterio;
-    private JTextField textFieldDtaFim;
     private JButton confirmarButton;
     private JPanel painelContent;
     private JFormattedTextField formattedTextFieldDtaInicio;
@@ -31,9 +34,12 @@ public class NovaProva extends JFrame{
     private boolean formatedTextFieldDtaFimClicked=false;
 
     private Prova prova;
+    private String metodo;
+    private Evento evento;
     public NovaProva(String metodo, Prova prova){
         super(metodo);
         this.prova = prova;
+        this.metodo = metodo;
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setContentPane(painelPrincipal);
         setVisible(true);
@@ -41,7 +47,7 @@ public class NovaProva extends JFrame{
 
         lblTitle.setText(metodo);
 
-        if (metodo.equals("Criar Atleta")) {
+        if (metodo.equals("Criar Prova")) {
             buttonApagar.setText("Cancelar");
         }
         else {
@@ -62,6 +68,13 @@ public class NovaProva extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
             apagar();
+            }
+        });
+
+        confirmarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                criarProva();
             }
         });
 
@@ -118,17 +131,61 @@ public class NovaProva extends JFrame{
         buttonImportar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFileChooser chooser = new JFileChooser();
-                FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                        "JPG & GIF Images", "jpg", "gif");
-                chooser.setFileFilter(filter);
-                int returnVal = chooser.showOpenDialog(painelContent);
-                if(returnVal == JFileChooser.APPROVE_OPTION) {
-                    System.out.println("You chose to open this file: " +
-                            chooser.getSelectedFile().getName());
-                }
+                importarDeFicheiro();
             }
         });
+    }
+
+    public NovaProva(String metodo, Prova prova, Evento evento){
+        this(metodo, prova);
+        this.evento = evento;
+    }
+
+    private void criarProva() {
+        try {
+            //  Block of code to try
+            if (textFieldTipoProva.getText().length() > 0 && textFieldCriterio.getText().length() > 0
+                    && formattedTextFieldDtaInicio.getText().length() > 0 && formattedTextFieldDtaFim.getText().length() > 0 ) {
+
+                if (this.metodo.equals("Criar Prova")) {
+                    String[] aux = formattedTextFieldDtaInicio.getText().split("-");
+                    Data dataInicio = new Data(Integer.valueOf(aux[2]), Integer.valueOf(aux[1]), Integer.valueOf(aux[0]));
+                    aux = formattedTextFieldDtaFim.getText().split("-");
+                    Data dataFim = new Data(Integer.valueOf(aux[2]), Integer.valueOf(aux[1]), Integer.valueOf(aux[0]));
+
+                    this.prova = new Prova(TipoProva.getTipoProva(textFieldTipoProva.getText()), textFieldCriterio.getText(), dataInicio, dataFim,this.evento,textFieldCriterio.getText().charAt(0));
+                    evento.adicionarProva(prova);
+                }else{
+
+                    String[] aux = formattedTextFieldDtaInicio.getText().split("-");
+                    Data dataInicio = new Data(Integer.valueOf(aux[2]), Integer.valueOf(aux[1]), Integer.valueOf(aux[0]));
+                    aux = formattedTextFieldDtaFim.getText().split("-");
+                    Data dataFim = new Data(Integer.valueOf(aux[2]), Integer.valueOf(aux[1]), Integer.valueOf(aux[0]));
+
+                    prova.setTipoProva(TipoProva.getTipoProva(textFieldTipoProva.getText()));
+                    prova.setCriterioProva(textFieldCriterio.getText());
+                    prova.setDataInicio(dataInicio);
+                    prova.setDataFimPrevisto(dataFim);
+                }
+                dispose();
+            }
+        }
+        catch(Exception e) {
+
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+
+    void importarDeFicheiro() {
+        JFileChooser chooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "JPG & GIF Images", "jpg", "gif");
+        chooser.setFileFilter(filter);
+        int returnVal = chooser.showOpenDialog(painelContent);
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+            System.out.println("You chose to open this file: " +
+                    chooser.getSelectedFile().getName());
+        }
     }
 
     private void btnSelecionarAtletasClickedActionPerformed(){

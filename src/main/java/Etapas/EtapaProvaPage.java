@@ -2,6 +2,7 @@ package Etapas;
 
 
 
+import Atletas.NovoAtleta;
 import Atletas.SelecionarAtletasPage;
 import Eventos.Evento;
 import Grupos.EtapaGruposProvaPage;
@@ -18,7 +19,7 @@ import java.awt.event.ActionListener;
 public class EtapaProvaPage extends JFrame{
     private JPanel painelPrincipal;
     private JButton buttonVoltar;
-    private JButton button1;
+    private JButton adicionarEtapaButton;
     private JTextField pesquisarTextField;
     private JTable tableProvas;
     private JLabel lblNomeEvento;
@@ -36,6 +37,14 @@ public class EtapaProvaPage extends JFrame{
         pack();
 
         createTable();
+
+        adicionarEtapaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                var novaEtapaProva = new NovaEtapaProva("Criar Etapa", null, prova);
+                novaEtapaProva.setVisible(true);
+            }
+        });
     }
 
 

@@ -43,6 +43,14 @@ public class JanelaProvas extends JFrame{
                 dispose();
             }
         });
+
+        adicionarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                var novaProva = new NovaProva("Criar Prova", null, evento);
+                novaProva.setVisible(true);
+            }
+        });
     }
 
 
