@@ -1,6 +1,6 @@
 package Provas;
 
-public class WithCriterio {
+public abstract class WithCriterio {
     private char operador;
     public WithCriterio(char operador) {
         this.operador = operador;
