@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.LinkedList;
 
-public class ESWorldAtheleticsTests {
+class ESWorldAtheleticsTests {
     @BeforeEach
     void setUp() {
         Evento evento1 = new Evento("Jogos Olimpicos", "China", "Tokio",  new Data(2022, 6, 23),new Data(2022,7,23));
@@ -48,14 +48,14 @@ public class ESWorldAtheleticsTests {
     }
 
     @Test
-    public void testCreateEvento() {
+    void testCreateEvento() {
         Evento evento1 = new Evento("Jogos Olimpicos", "China", "Tokio",  new Data(2022, 6, 23),new Data(2022,7,23));
         GestorEventos.getInstance().addEvento(evento1);
         assertEquals(true,GestorEventos.getInstance().getEventos().contains(evento1));
     }
 
     @Test
-    public void testDefinirAutomaticamenteCalendarioDeProvasEliminatorias(){
+    void testDefinirAutomaticamenteCalendarioDeProvasEliminatorias(){
 
         GestorProvasEliminatorias gestorProvasEliminatorias = GestorProvasEliminatorias.getInstance();
         LinkedList<Evento> eventos = GestorEventos.getInstance().getEventos();
@@ -79,13 +79,13 @@ public class ESWorldAtheleticsTests {
     }
 
     @Test
-    public void testApresentarCalendárioDeProvasEliminatórias(){
+    void testApresentarCalendárioDeProvasEliminatórias(){
         testDefinirAutomaticamenteCalendarioDeProvasEliminatorias();
         assertEquals(true, GestorProvasEliminatorias.getInstance().getEtapasEliminatorias().size()>0);
     }
 
     @Test
-    public void testRegistarProgressoDeProvaEliminatória(){
+    void testRegistarProgressoDeProvaEliminatória(){
         LinkedList<Grupo> grupos = GestorEventos.getInstance().getEventos().getFirst().getProvas()
                 .getFirst().getEtapas().getFirst().getGrupos();
         int i = 0;
@@ -107,7 +107,7 @@ public class ESWorldAtheleticsTests {
     }
 
     @Test
-    public void testRegistarResultadoDeProva(){
+    void testRegistarResultadoDeProva(){
         LinkedList<Grupo> grupos = GestorEventos.getInstance().getEventos().getFirst().getProvas()
                 .getFirst().getEtapas().getFirst().getGrupos();
         for (Grupo grupo: grupos) {
@@ -121,7 +121,7 @@ public class ESWorldAtheleticsTests {
     }
 
     @Test
-    public void testEfetuarListagemDeProvasAQueUmDadoAtletaEstaInscrito(){
+    void testEfetuarListagemDeProvasAQueUmDadoAtletaEstaInscrito(){
         LinkedList<Prova> provas = new LinkedList<>();
         Atleta atletaTest = GestorAtletas.getInstance().getAtletas().getFirst();
         Object[][] data = new Object[0][8];
@@ -144,7 +144,7 @@ public class ESWorldAtheleticsTests {
     }
 
     @Test
-    public void testEfetuarListagemDeInscritosPorProva(){
+    void testEfetuarListagemDeInscritosPorProva(){
         //DATA FOR OUR TABLE
         Object[][] data = new Object[0][8];
         LinkedList<Atleta> atletas = GestorAtletas.getInstance().getAtletas();
@@ -167,7 +167,7 @@ public class ESWorldAtheleticsTests {
     }
 
     @Test
-    public void testListarOsRecordesDoMundoPorProva(){
+    void testListarOsRecordesDoMundoPorProva(){
 
         LinkedList<Evento> eventos = GestorEventos.getInstance().getEventos();
         LinkedList<TipoProva> tipoProvaLinkedList = new LinkedList<>();
@@ -211,13 +211,13 @@ public class ESWorldAtheleticsTests {
     }
 
     @Test
-    public void testCriarAtleta(){
+    void testCriarAtleta(){
         Atleta atletaRafael = new Atleta("Rafael Mendes Pereira", "Portugal", Genero.M, new Data(2000, 9, 3), "910000000", TipoProva.Salto_em_Comprimento);
         assertEquals(true, atletaRafael != null);
     }
 
     @Test
-    public void testEditarAtleta(){
+    void testEditarAtleta(){
         Atleta atleta = GestorAtletas.getInstance().getAtletas().getFirst();
         atleta.setGenero(Genero.Nao_Defenido);
         atleta.setTipoProvaPref(TipoProva.Salto_em_Altura);
@@ -226,5 +226,42 @@ public class ESWorldAtheleticsTests {
         atleta.setDataNascimento(new Data(2000, 6, 3));
         atleta.setContacto("930000000");
         assertEquals(true, atleta != null);
+    }
+
+    @Test
+    void testGerirInscricoesDeAtletasNasProvas() {
+        Prova prova = GestorEventos.getInstance().getEventos().getFirst().getProvas().getFirst();
+        Atleta atletaLucas = new Atleta("Lucas", "Portugal", Genero.M, new Data(199, 9, 3), "930000000", TipoProva.Salto_em_Comprimento);
+        prova.adicionarAtleta(atletaLucas);
+
+        assertEquals(true, prova.getAtletas().contains(atletaLucas));
+
+        prova.removerAtleta(atletaLucas);
+
+        assertEquals(true, !prova.getAtletas().contains(atletaLucas));
+    }
+
+    @Test
+    void testConsultarHistóricoDoAtleta() {
+        //DATA FOR OUR TABLE
+        Object[][] data = new Object[0][8];
+        Atleta atleta1 = GestorAtletas.getInstance().getAtletas().getFirst();
+        LinkedList<Prova> provas = new LinkedList<>();
+        int i = 0;
+        LinkedList<Evento> eventos = GestorEventos.getInstance().getEventos();
+        for (Evento evento : eventos) {
+            for (Prova prova : evento.getProvas()) {
+                for (Atleta atleta : prova.getAtletas()) {
+                    if (atleta.equals(atleta1)){
+                        Object[][] dataAux = new Object[data.length+1][8];
+                        System.arraycopy(data, 0, dataAux, 0, data.length);
+                        dataAux[i++] = new Object[]{evento.getNome(),prova.getTipoProva(),prova.getEtapas().size(),evento.getDataInicio(), evento.getDataFim(), "", "Abrir Prova"};
+                        data = dataAux.clone();
+                        provas.add(prova);
+                    }
+                }
+            }
+        }
+        assertEquals(true, data.length>0);
     }
 }
