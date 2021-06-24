@@ -281,7 +281,7 @@ class ESWorldAtheleticsTests {
         evento.setDataFim(new Data(2022,11,2));
         assertEquals(true, evento != null);
     }
-    
+
     @Test
     void testCriarProva(){
         Evento evento = GestorEventos.getInstance().getEventos().getFirst();

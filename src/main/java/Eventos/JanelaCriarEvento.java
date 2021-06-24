@@ -4,14 +4,25 @@ import Utils.Data;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
+import org.w3c.dom.*;
+import org.xml.sax.SAXException;
+
+import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class JanelaCriarEvento extends JFrame{
     private JPanel painelPrincipal;
@@ -231,13 +242,72 @@ public class JanelaCriarEvento extends JFrame{
                 chooser.setFileFilter(filter);
                 int returnVal = chooser.showOpenDialog(painelContent);
                 if(returnVal == JFileChooser.APPROVE_OPTION) {
-                    System.out.println("You chose to open this file: " +
-                            chooser.getSelectedFile().getName());
+                    importar(chooser.getSelectedFile());
                 }
 
 
 
             }
+
+            private void importar(File selectedFile) {
+                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+
+                try {
+                    dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+
+                    // parse XML file
+                    DocumentBuilder db = dbf.newDocumentBuilder();
+
+                    Document doc = db.parse(selectedFile);
+                    doc.getDocumentElement().normalize();
+                    NodeList list = doc.getElementsByTagName("evento");
+
+                    for (int temp = 0; temp < list.getLength(); temp++) {
+
+                        Node node = list.item(temp);
+
+                        if (node.getNodeType() == Node.ELEMENT_NODE) {
+
+                            Element element = (Element) node;
+
+                            // get text
+                            String nome = element.getElementsByTagName("nome").item(0).getTextContent();
+                            String pais = element.getElementsByTagName("pais").item(0).getTextContent();
+                            String local = element.getElementsByTagName("local").item(0).getTextContent();
+                            String dtaInicio = element.getElementsByTagName("dtaInicio").item(0).getTextContent();
+                            String dtaFim = element.getElementsByTagName("dtaFim").item(0).getTextContent();
+                            String[] dtaInicioArray = dtaInicio.split("-");
+                            String[] dtaFimArray= dtaFim.split("-");
+                            int dia1 = Integer.parseInt(dtaInicioArray[2]);
+                            int mes1 = Integer.parseInt(dtaInicioArray[1]);
+                            int ano1 = Integer.parseInt(dtaInicioArray[0]);
+                            int dia2 = Integer.parseInt(dtaFimArray[2]);
+                            int mes2 = Integer.parseInt(dtaFimArray[1]);
+                            int ano2 = Integer.parseInt(dtaFimArray[0]);
+                            Data novaDataInicio = new Data(ano1,mes1,dia1);
+                            Data novaDataFim = new Data(ano2,mes2,dia2);
+                            GestorEventos eventos = new GestorEventos();
+                            Evento evento = new Evento(nome,pais,local,novaDataInicio,novaDataFim);
+                            eventos.addEvento(evento);
+                            JOptionPane.showMessageDialog(null,
+                                    "Evento "+nome+" adicionado!",
+                                    "Sucesso",
+                                    JOptionPane.INFORMATION_MESSAGE);
+
+
+                        }
+                    }
+
+                } catch (ParserConfigurationException | SAXException | IOException e) {
+                    e.printStackTrace();
+                }
+                dispose();
+                    }
+
+
+
+
+
         });
     }
 

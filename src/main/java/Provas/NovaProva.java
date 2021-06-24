@@ -120,7 +120,7 @@ public class NovaProva extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 JFileChooser chooser = new JFileChooser();
                 FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                        "JPG & GIF Images", "jpg", "gif");
+                        "XML", "xml");
                 chooser.setFileFilter(filter);
                 int returnVal = chooser.showOpenDialog(painelContent);
                 if(returnVal == JFileChooser.APPROVE_OPTION) {

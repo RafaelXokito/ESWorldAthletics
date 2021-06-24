@@ -6,6 +6,7 @@ import Atletas.SelecionarAtletasPage;
 import Etapas.EtapaProvaPage;
 import Eventos.Evento;
 import Eventos.GestorEventos;
+import Eventos.JanelaEventos;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -41,6 +42,12 @@ public class JanelaProvas extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
+            }
+        });
+        adicionarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
     }
