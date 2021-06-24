@@ -16,7 +16,7 @@ import java.util.LinkedList;
 public class JanelaProvas extends JFrame{
     private JPanel painelPrincipal;
     private JButton buttonVoltar;
-    private JButton button1;
+    private JButton adicionarButton;
     private JTextField pesquisarTextField;
     private JTable tableProvas;
     private JLabel lblNomeEvento;

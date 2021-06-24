@@ -21,7 +21,7 @@ public class Homepage extends JFrame {
     private JPanel gridLayoutPanel;
     private JButton calendarioEliminatorioButton;
     private JButton recordesMundoButton;
-    private JButton buttonEventos;
+    private JButton btnEventos;
     private JButton atletasButton;
 
     public Homepage(String title){
@@ -72,7 +72,7 @@ public class Homepage extends JFrame {
 
         pack();
 
-        buttonEventos.addActionListener(new ActionListener() {
+        btnEventos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
             var janelaEventos = new JanelaEventos();
