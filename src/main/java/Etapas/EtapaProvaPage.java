@@ -139,12 +139,10 @@ class ButtonJanelaProvasEditor extends DefaultCellEditor
             //JOptionPane.showMessageDialog(btn, lbl+" Clicked");
             switch(lbl){
                 case "Abrir Atletas":
-                    var selecionarAtletasPage = new SelecionarAtletasPage(this.prova.getEtapas().get(row));
-                    selecionarAtletasPage.setVisible(true);
+                    abrirAtletasInRowClicked();
                     break;
                 case "Abrir Grupos":
-                    var etapaGruposProvaPage = new EtapaGruposProvaPage(this.prova.getTipoProva(),this.prova.getEtapas().get(row));
-                    etapaGruposProvaPage.setVisible(true);
+                    abrirGruposInRowClicked();
                     break;
                 case "Alterar":
                     /*var novaProva = new NovaProva("Alterar Prova", this.prova.getEtapas().get(row));
@@ -155,6 +153,16 @@ class ButtonJanelaProvasEditor extends DefaultCellEditor
         //SET IT TO FALSE NOW THAT ITS CLICKED
         clicked=false;
         return new String(lbl);
+    }
+
+    private void abrirGruposInRowClicked() {
+        var etapaGruposProvaPage = new EtapaGruposProvaPage(this.prova.getTipoProva(),this.prova.getEtapas().get(row));
+        etapaGruposProvaPage.setVisible(true);
+    }
+
+    private void abrirAtletasInRowClicked() {
+        var selecionarAtletasPage = new SelecionarAtletasPage(this.prova.getEtapas().get(row));
+        selecionarAtletasPage.setVisible(true);
     }
 
     @Override

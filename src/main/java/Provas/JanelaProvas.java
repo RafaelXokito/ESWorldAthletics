@@ -144,8 +144,7 @@ class ButtonJanelaProvasEditor extends DefaultCellEditor
             //JOptionPane.showMessageDialog(btn, lbl+" Clicked");
             switch(lbl){
                 case "Abrir Prova":
-                    var etapaProvaPage = new EtapaProvaPage(this.evento.getProvas().get(row));
-                    etapaProvaPage.setVisible(true);
+                    abrirProvaInRowClicked();
                     break;
                 case "Abrir Atletas":
                     var selecionarAtletasPage = new SelecionarAtletasPage(this.evento.getProvas().get(row));
@@ -160,6 +159,11 @@ class ButtonJanelaProvasEditor extends DefaultCellEditor
         //SET IT TO FALSE NOW THAT ITS CLICKED
         clicked=false;
         return new String(lbl);
+    }
+
+    private void abrirProvaInRowClicked() {
+        var etapaProvaPage = new EtapaProvaPage(this.evento.getProvas().get(row));
+        etapaProvaPage.setVisible(true);
     }
 
     @Override
